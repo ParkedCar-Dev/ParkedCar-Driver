@@ -1,4 +1,4 @@
-package com.example.parkedcardriver.view.Common;
+package com.example.parkedcardriver.Common;
 
 import android.widget.TextView;
 
