@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">ParkedCarDriver</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="description">Welcome to ParkedCar \n Your ultimate solution for stress-free car parking!</string>
+    <string name="permission_required">Location Permission Required</string>
+    <string name="welcome">Welcome</string>
+    <string name="choose_a_saved_place">Choose a saved place</string>
+    <string name="where_to_park">Where to Park?</string>
+</resources>

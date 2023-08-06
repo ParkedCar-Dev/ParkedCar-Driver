@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/debug/res/menu/menu_bar.xml" value="0.33" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/debug/res/menu/navigation_bar.xml" value="0.25" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/debug/res/menu/top_app_bar.xml" value="0.3359375" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable/ic_arrow_back_black_24dp.xml" value="0.35625" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable/ic_search_white.xml" value="0.35625" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable/round_button_purple.xml" value="0.35625" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/font/abril_fatface.xml" value="0.37447916666666664" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/font/aclonica.xml" value="0.37447916666666664" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/font/alegreya_bold_italic.xml" value="0.37447916666666664" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/font/allerta_stencil.xml" value="0.37447916666666664" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/font/amita.xml" value="0.1" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/font/courgette.xml" value="0.37447916666666664" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/activity_main.xml" value="0.3359375" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/fragment_maps.xml" value="0.31875" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/fragment_splash_screen.xml" value="0.33" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/nav_header.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
