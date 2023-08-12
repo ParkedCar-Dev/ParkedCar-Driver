@@ -41,7 +41,7 @@ public class SplashScreenFragment extends Fragment {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         new Handler(Looper.myLooper()).postDelayed(() -> {
-            Navigation.findNavController(view).navigate(R.id.action_splashScreenFragment_to_mapsFragment);
+            Navigation.findNavController(view).navigate(R.id.action_splashScreenFragment_to_homeFragment);
         }, 4000);
     }
 }

@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="170dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +23,7 @@
             android:fontFamily="@font/courgette"
             android:textSize="32sp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="65dp"
+            android:layout_marginTop="75dp"
             android:textColor="@color/quantum_grey300"/>
 
     </LinearLayout>
@@ -57,7 +57,7 @@
                 android:layout_width="62dp"
                 android:layout_height="62dp"
                 android:layout_gravity="start"
-                android:src="@drawable/getSpot" />
+                android:src="@drawable/getspot" />
 
             <TextView
                 android:layout_width="wrap_content"
