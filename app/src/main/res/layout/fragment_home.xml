@@ -42,108 +42,127 @@
         app:layout_constraintVertical_weight="0.5"
         app:layout_constraintVertical_chainStyle="packed">
 
-        <!-- First Shaded Box (Parking) -->
         <LinearLayout
             android:id="@+id/parkingBox"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginEnd="7dp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_button"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
 
-            <ImageView
-                android:layout_width="62dp"
-                android:layout_height="62dp"
-                android:layout_gravity="start"
-                android:src="@drawable/getspot" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="12dp"
-                android:fontFamily="@font/aclonica"
-                android:text="Get a Spot"
-                android:textColor="@android:color/black"
-                android:textSize="16dp" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="12dp">
+            <!-- First Shaded Box (Parking) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_button_clickable"
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/rounded_button_black" />
+                    android:layout_width="62dp"
+                    android:layout_height="62dp"
+                    android:layout_gravity="start"
+                    android:src="@drawable/getspot" />
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_baseline_arrow_forward_24" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/aclonica"
+                    android:text="Get a Spot"
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp" />
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="18sp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/rounded_button_black" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_baseline_arrow_forward_24" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 
-        <!-- Second Shaded Box (Profile) -->
         <LinearLayout
             android:id="@+id/profileBox"
             android:layout_width="0dp"
             android:layout_height="200dp"
-            android:layout_marginStart="10dp"
             android:layout_weight="1"
-            android:background="@drawable/rounded_button"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_marginStart="7dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true">
 
-            <ImageView
-                android:layout_width="55dp"
-                android:layout_height="62dp"
-                android:layout_gravity="start"
-                android:layout_marginStart="8dp"
-                android:src="@drawable/profile" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="12dp"
-                android:fontFamily="@font/aclonica"
-                android:text="See Profile"
-                android:textColor="@android:color/black"
-                android:textSize="16dp" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="12dp">
+            <!-- Second Shaded Box (Profile) -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_button_clickable"
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_alignParentStart="true"
-                    android:src="@drawable/rounded_button_black" />
+                    android:layout_width="55dp"
+                    android:layout_height="62dp"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="8dp"
+                    android:src="@drawable/profile" />
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/ic_baseline_arrow_forward_24" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/aclonica"
+                    android:text="See Profile"
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp" />
 
-            </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginStart="6dp"
+                    android:layout_marginTop="18dp">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentStart="true"
+                        android:src="@drawable/rounded_button_black" />
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_baseline_arrow_forward_24" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
+
 
     </LinearLayout>
 
