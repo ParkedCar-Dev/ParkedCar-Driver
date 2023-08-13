@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Address;
@@ -22,6 +23,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.parkedcardriver.Common.Common;
+import com.example.parkedcardriver.Model.Event.SelectedPlaceEvent;
+import com.example.parkedcardriver.ViewModel.Remote.IGoogleAPI;
+import com.example.parkedcardriver.ViewModel.Remote.RetrofitClient;
+import com.example.parkedcardriver.view.RequestSlot.RequestSlotActivity;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -52,6 +57,8 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -59,6 +66,7 @@ import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.CompositeDisposable;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
@@ -79,6 +87,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap map;
     private SupportMapFragment mapFragment;
 
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private IGoogleAPI iGoogleAPI;
+
+    @Override
+    public void onStop() {
+        compositeDisposable.clear();
+        super.onStop();
+    }
+
     @Override
     public void onDestroy() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
@@ -88,7 +105,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        // googleMap.getUiSettings().setZoomControlsEnabled(true);
         // Check Permissions
         Dexter.withContext(getContext())
                 .withPermission(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -149,9 +165,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     }
                 }).check();
 
+        map.getUiSettings().setZoomControlsEnabled(true);
         try {
             boolean success = googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(getContext(), R.raw.uber_maps_style));
-            if (success) {
+            if (!success) {
                 Log.e("ERROR", "Style parsing error");
             }
         } catch (Resources.NotFoundException e) {
@@ -197,9 +214,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     private void init() {
 
+        iGoogleAPI = RetrofitClient.getInstance().create(IGoogleAPI.class);
+
         // --------------------------------------------------------------------
         Places.initialize(getContext(), getString(R.string.google_maps_key));
-        autocompleteSupportFragment = (AutocompleteSupportFragment)getChildFragmentManager()
+        autocompleteSupportFragment = (AutocompleteSupportFragment) getChildFragmentManager()
                 .findFragmentById(R.id.autocomplete_fragment);
         autocompleteSupportFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.ADDRESS,
                 Place.Field.NAME, Place.Field.LAT_LNG));
@@ -207,12 +226,26 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         autocompleteSupportFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onError(@NonNull Status status) {
-                Toast.makeText(getContext(), ""+status.getStatusMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "" + status.getStatusMessage(), Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onPlaceSelected(@NonNull Place place) {
-                Toast.makeText(getContext(), ""+place.getLatLng(), Toast.LENGTH_LONG).show();
+                // Toast.makeText(getContext(), ""+place.getLatLng(), Toast.LENGTH_LONG).show();
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(getContext(), getString(R.string.permission_required), Toast.LENGTH_LONG).show();
+                    return;
+                }
+                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        LatLng origin = new LatLng(location.getLatitude(), location.getLongitude());
+                        LatLng destination = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
+                        startActivity(new Intent(getContext(), RequestSlotActivity.class));
+                        EventBus.getDefault().postSticky(new SelectedPlaceEvent(origin, destination));
+                    }
+                });
             }
         });
         // --------------------------------------------------------------------

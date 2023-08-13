@@ -7,4 +7,5 @@
     <string name="welcome">Welcome</string>
     <string name="choose_a_saved_place">Choose a saved place</string>
     <string name="where_to_park">Where to Park?</string>
+    <string name="title_activity_request_slot">RequestSlotActivity</string>
 </resources>
