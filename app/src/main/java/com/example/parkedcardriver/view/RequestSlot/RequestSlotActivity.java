@@ -8,13 +8,16 @@ import android.Manifest;
 import android.animation.ValueAnimator;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.parkedcardriver.Common.Common;
@@ -26,6 +29,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.JointType;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -38,6 +42,7 @@ import com.google.android.gms.maps.model.SquareCap;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.maps.android.ui.IconGenerator;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -65,7 +70,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
     private PolylineOptions polylineOptions, blackPolylineOptions;
     private List<LatLng> polylineList;
 
-    private Marker originMarker, DestinationMarker;
+    private Marker originMarker, destinationMarker;
 
     @Override
     protected void onStart() {
@@ -230,9 +235,41 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
     }
 
     private void addDestinationMarker(String end_address) {
+        View view = getLayoutInflater().inflate(R.layout.destination_info_box, null);
+
+        TextView txt_destination = (TextView) view.findViewById(R.id.txt_destination);
+
+        txt_destination.setText(Common.formatAddress(end_address));
+
+        // Create icon for marker
+        IconGenerator generator = new IconGenerator(this);
+        generator.setContentView(view);
+        generator.setBackground(new ColorDrawable(Color.TRANSPARENT));
+        Bitmap icon = generator.makeIcon();
+
+        destinationMarker = mMap.addMarker(new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromBitmap(icon))
+                .position(selectedPlaceEvent.getDestination()));
     }
 
     private void addOriginMarker(String duration, String start_address) {
+        View view = getLayoutInflater().inflate(R.layout.origin_info_box, null);
+
+        TextView txt_time = (TextView) view.findViewById(R.id.txt_time);
+        TextView txt_origin = (TextView) view.findViewById(R.id.txt_origin);
+
+        txt_time.setText(Common.formatDuration(duration));
+        txt_origin.setText(Common.formatAddress(start_address));
+
+        // Create icon for marker
+        IconGenerator generator = new IconGenerator(this);
+        generator.setContentView(view);
+        generator.setBackground(new ColorDrawable(Color.TRANSPARENT));
+        Bitmap icon = generator.makeIcon();
+
+        originMarker = mMap.addMarker(new MarkerOptions()
+            .icon(BitmapDescriptorFactory.fromBitmap(icon))
+            .position(selectedPlaceEvent.getOrigin()));
     }
 
     private void init()

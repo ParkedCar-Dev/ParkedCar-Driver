@@ -21,10 +21,12 @@
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/font/amita.xml" value="0.1" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/font/courgette.xml" value="0.37447916666666664" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/activity_main.xml" value="0.3359375" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/destination_info_box.xml" value="0.75" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/fragment_maps.xml" value="0.1" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/fragment_splash_screen.xml" value="0.33" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/nav_header.xml" value="0.1" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/origin_info_box.xml" value="0.5" />
       </map>
     </option>
   </component>
