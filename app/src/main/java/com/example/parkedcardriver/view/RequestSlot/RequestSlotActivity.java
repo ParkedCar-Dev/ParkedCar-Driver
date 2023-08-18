@@ -139,7 +139,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
         // Right Bottom
         params.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        params.setMargins(0, 0, 0, 50);
+        params.setMargins(0, 0, 35, 350);
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
         try {

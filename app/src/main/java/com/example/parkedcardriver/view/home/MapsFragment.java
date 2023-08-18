@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.Manifest;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +77,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     SlidingUpPanelLayout slidingUpPanelLayout;
     @BindView(R.id.txt_welcome)
     TextView txt_welcome;
+    @BindView(R.id.saved_work_address_maps)
+    TextView txt_work_address;
 
     private AutocompleteSupportFragment autocompleteSupportFragment;
     // ----------------------------
@@ -150,7 +154,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                         // Right Bottom
                         params.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
                         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-                        params.setMargins(0, 0, 0, 50);
+                        params.setMargins(0, 0, 35, 350);
                     }
 
                     @Override
@@ -209,6 +213,55 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private void initView(View view) {
         ButterKnife.bind(this, view);
         Common.setWelcomeMessage(txt_welcome);
+
+        /**
+         // Here, we are setting the address and LatLng for saved address(Work Address)
+         // We will add functionality of adding a favourite place from profile section(optional). The new saved address will be shown in the saved places list.
+         // Get the address from lat & lng
+         */
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        TextView workLatLng = view.findViewById(R.id.work_address_lat_lng);
+        String latLng = (String) workLatLng.getText();
+        Double lat_work_address = Double.parseDouble(latLng.split(",")[0]);
+        Double lng_work_address = Double.parseDouble(latLng.split(",")[1]);
+        List<Address> workAddress = null;
+        try {
+            workAddress = geocoder.getFromLocation(lat_work_address,
+                    lng_work_address, 1);
+        } catch (IOException e) {
+            Toast.makeText(getContext(), e.getMessage() + "", Toast.LENGTH_LONG).show();
+        }
+        if (workAddress != null) {
+            String address = workAddress.get(0).getAddressLine(0);
+            String city = workAddress.get(0).getLocality();
+            String state = workAddress.get(0).getAdminArea();
+            String zip = workAddress.get(0).getPostalCode();
+            String country = workAddress.get(0).getCountryName();
+
+            txt_work_address.setText(address + ", " + city + ", " + country);
+
+            Log.d("Full Address", address + ", " + city + ", " + state + ", " + zip + ", " + country);
+        }
+
+        LinearLayout workAddressLayout = view.findViewById(R.id.linearlayout_work_maps);
+        workAddressLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        LatLng origin = new LatLng(location.getLatitude(), location.getLongitude());
+                        LatLng destination = new LatLng(lat_work_address, lng_work_address);
+                        startActivity(new Intent(getContext(), RequestSlotActivity.class));
+                        EventBus.getDefault().postSticky(new SelectedPlaceEvent(origin, destination));
+                    }
+                });
+            }
+        });
     }
     // --------------------------------
 
