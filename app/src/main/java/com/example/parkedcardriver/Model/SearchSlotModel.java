@@ -37,4 +37,12 @@ public class SearchSlotModel {
         this.spaces = spaces;
     }
 
+    @Override
+    public String toString() {
+        return "SearchSlotModel{" +
+                "status='" + status + '\'' +
+                ", message='" + message + '\'' +
+                ", spaces=" + spaces.size() +
+                '}';
+    }
 }

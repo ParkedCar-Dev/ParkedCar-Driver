@@ -1,6 +1,7 @@
 package com.example.parkedcardriver.ViewModel;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.parkedcardriver.Model.SlotModel;
@@ -12,6 +13,7 @@ public class SlotViewModel extends ViewModel {
 
     private Double latitude, longitude;
     private String city;
+    MutableLiveData<ArrayList<SlotModel>> slotModelLiveData;
 
     SearchSlotRepository searchSlotRepository;
 
@@ -19,8 +21,15 @@ public class SlotViewModel extends ViewModel {
         this.searchSlotRepository = searchSlotRepository;
     }
 
-    public LiveData<ArrayList<SlotModel>> getSearchedSlots(){
-        return searchSlotRepository.getSearchedSlots();
+    public LiveData<ArrayList<SlotModel>> getSearchedSlots() {
+        if(slotModelLiveData == null){
+            slotModelLiveData = new MutableLiveData<>();
+        }
+        return slotModelLiveData;
+    }
+
+    public void searchSlots(){
+        searchSlotRepository.getSearchedSlots(latitude, longitude, city, slotModelLiveData);
     }
 
     public void clearComposite(){

@@ -19,6 +19,7 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class SearchSlotRepository {
 
@@ -31,18 +32,16 @@ public class SearchSlotRepository {
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public SearchSlotRepository(Double latitude, Double longitude, String city) {
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.city = city;
+    public SearchSlotRepository() {
     }
 
     public void clearComposite(){
         compositeDisposable.clear();
     }
 
-    public MutableLiveData<ArrayList<SlotModel>> getSearchedSlots(){
-        SearchSlotService searchSlotService = new RetrofitClient().getSearchedSlotService();
+    public void getSearchedSlots(double latitude, double longitude, String city, MutableLiveData<ArrayList<SlotModel>> mutableLiveData){
+        Retrofit retrofitClient = new RetrofitClient().getInstance();
+        SearchSlotService searchSlotService = retrofitClient.create(SearchSlotService.class);
 
         System.out.println(latitude+" "+longitude+" "+ city);
 
@@ -59,17 +58,22 @@ public class SearchSlotRepository {
 //                    }
 //                }, throwable -> Log.e("Error on Search Slots", "Throwable " + throwable.getMessage()))
 //        );
-
+        Log.d("SEARCH_SLOT_REPO", "Before Call");
         Call<SearchSlotModel> call = searchSlotService.getSearchedSlots(new SearchSlotRequestBody(latitude, longitude, city));
-
+        Log.d("SEARCH_SLOT_REPO", "After Call");
         call.enqueue(new Callback<SearchSlotModel>() {
             @Override
             public void onResponse(Call<SearchSlotModel> call, Response<SearchSlotModel> response) {
                 if (response.isSuccessful()) {
                     SearchSlotModel searchSlotModel = response.body();
-                    Log.d("Succes or not!", searchSlotModel.getMessage());
+                    Log.d("SEARCH_SLOT_REPO", searchSlotModel.getMessage());
+                    Log.d("SEARCH_SLOT_REPO", searchSlotModel.toString());
+                    if(searchSlotModel.getSpaces() != null && searchSlotModel.getSpaces().size() > 0){
+                        mutableLiveData.setValue(searchSlotModel.getSpaces());
+                    }
                 } else {
                     // Handle error responses here
+                    Log.d("SEARCH_SLOT_REPO", "Error Response: "+response.message());
                 }
             }
 
@@ -77,9 +81,10 @@ public class SearchSlotRepository {
             public void onFailure(Call<SearchSlotModel> call, Throwable t) {
                 // Handle network errors here
                 System.out.println(t.getMessage());
+                Log.d("SEARCH_SLOT_REPO", "on failure: "+ t.getMessage());
             }
         });
 
-        return mutableLiveData;
+//        return mutableLiveData;
     }
 }

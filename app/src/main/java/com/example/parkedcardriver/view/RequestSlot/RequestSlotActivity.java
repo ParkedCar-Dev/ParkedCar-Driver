@@ -1,7 +1,6 @@
 package com.example.parkedcardriver.view.RequestSlot;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -20,7 +18,6 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -53,9 +50,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.SquareCap;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.maps.android.ui.IconGenerator;
 
 import org.greenrobot.eventbus.EventBus;
@@ -65,6 +59,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -140,21 +135,34 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        SearchSlotRepository searchSlotRepository = new SearchSlotRepository();
+        slotViewModel = new ViewModelProvider(this).get(SlotViewModel.class);
+
+        slotAdapter = new SlotAdapter(RequestSlotActivity.this, new ArrayList<>());
+        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(RequestSlotActivity.this, R.anim.layout_animation);
+        binding.searchedSlotsRecyclerView.setLayoutAnimation(controller);
+        binding.searchedSlotsRecyclerView.setAdapter(slotAdapter);
+
+        slotViewModel.setSearchSlotRepository(searchSlotRepository);
+        slotViewModel.getSearchedSlots().observe(this, slots->{
+            slotAdapter.setSlotModelArrayList(slots);
+            slotAdapter.notifyDataSetChanged();
+        });
 
         initSlotViewModel();
     }
 
-    private void loadSlotData() {
-        slotViewModel.getSearchedSlots().observe(this, slots->{
-            slotAdapter = new SlotAdapter(RequestSlotActivity.this, slots);
-            LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(RequestSlotActivity.this, R.anim.layout_animation);
-            binding.searchedSlotsRecyclerView.setLayoutAnimation(controller);
-            binding.searchedSlotsRecyclerView.setAdapter(slotAdapter);
-        });
-    }
+
+//    private void loadSlotData() {
+//        slotViewModel.searchSlots().observe(this, slots->{
+//            slotAdapter = new SlotAdapter(RequestSlotActivity.this, slots);
+//            LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(RequestSlotActivity.this, R.anim.layout_animation);
+//            binding.searchedSlotsRecyclerView.setLayoutAnimation(controller);
+//            binding.searchedSlotsRecyclerView.setAdapter(slotAdapter);
+//        });
+//    }
 
     private void initSlotViewModel() {
-        slotViewModel = new ViewModelProvider(this).get(SlotViewModel.class);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -187,10 +195,12 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                 }
 
                 slotViewModel.setCity(city);
-                SearchSlotRepository searchSlotRepository = new SearchSlotRepository(latitude, longitude, city);
-                slotViewModel.setSearchSlotRepository(searchSlotRepository);
-
-                loadSlotData();
+                slotViewModel.setLatitude(latitude);
+                slotViewModel.setLongitude(longitude);
+                Log.d("Request Slot", "Search Slots");
+                slotViewModel.searchSlots();
+                Log.d("Request Slot", "Search Slots after request");
+//                loadSlotData();
             }
         }, 1000);
     }

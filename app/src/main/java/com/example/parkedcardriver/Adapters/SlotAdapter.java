@@ -19,6 +19,10 @@ public class SlotAdapter extends RecyclerView.Adapter<SlotAdapter.MyViewHolder> 
     private Context context;
     private ArrayList<SlotModel> slotModelArrayList;
 
+    public void setSlotModelArrayList(ArrayList<SlotModel> slotModelArrayList) {
+        this.slotModelArrayList = slotModelArrayList;
+    }
+
     public SlotAdapter(Context context, ArrayList<SlotModel> slotModelArrayList) {
         this.context = context;
         this.slotModelArrayList = slotModelArrayList;
