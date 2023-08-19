@@ -79,6 +79,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     TextView txt_welcome;
     @BindView(R.id.saved_work_address_maps)
     TextView txt_work_address;
+    @BindView(R.id.saved_near_me_maps)
+    TextView txt_near_me;
 
     private AutocompleteSupportFragment autocompleteSupportFragment;
     // ----------------------------
@@ -104,6 +106,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onDestroy() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
         super.onDestroy();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mapFragment != null)
+            getActivity().getSupportFragmentManager().beginTransaction().remove(mapFragment).commit();
     }
 
     @Override
@@ -256,6 +265,52 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     public void onSuccess(Location location) {
                         LatLng origin = new LatLng(location.getLatitude(), location.getLongitude());
                         LatLng destination = new LatLng(lat_work_address, lng_work_address);
+                        startActivity(new Intent(getContext(), RequestSlotActivity.class));
+                        EventBus.getDefault().postSticky(new SelectedPlaceEvent(origin, destination));
+                    }
+                });
+            }
+        });
+
+        /**
+         * For nearby me places
+         */
+        TextView nearMeLatLng = view.findViewById(R.id.near_me_lat_lng);
+        String nearLatLng = (String) nearMeLatLng.getText();
+        Double lat_nearMe_address = Double.parseDouble(nearLatLng.split(",")[0]);
+        Double lng_nearMe_address = Double.parseDouble(nearLatLng.split(",")[1]);
+        List<Address> nearMeAddress = null;
+        try {
+            nearMeAddress = geocoder.getFromLocation(lat_nearMe_address,
+                    lng_nearMe_address, 1);
+        } catch (IOException e) {
+            Toast.makeText(getContext(), e.getMessage() + "", Toast.LENGTH_LONG).show();
+        }
+        if (nearMeAddress != null) {
+            String address = nearMeAddress.get(0).getAddressLine(0);
+            String city = nearMeAddress.get(0).getLocality();
+            String state = nearMeAddress.get(0).getAdminArea();
+            String zip = nearMeAddress.get(0).getPostalCode();
+            String country = nearMeAddress.get(0).getCountryName();
+
+            txt_near_me.setText(address + ", " + city + ", " + country);
+
+            Log.d("Full Address", address + ", " + city + ", " + state + ", " + zip + ", " + country);
+        }
+
+        LinearLayout nearMeAddressLayout = view.findViewById(R.id.linearlayout_near_me_maps);
+        nearMeAddressLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        LatLng origin = new LatLng(location.getLatitude(), location.getLongitude());
+                        LatLng destination = new LatLng(lat_nearMe_address, lng_nearMe_address);
                         startActivity(new Intent(getContext(), RequestSlotActivity.class));
                         EventBus.getDefault().postSticky(new SelectedPlaceEvent(origin, destination));
                     }

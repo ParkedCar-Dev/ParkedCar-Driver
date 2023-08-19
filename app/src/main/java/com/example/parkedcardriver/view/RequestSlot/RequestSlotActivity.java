@@ -1,30 +1,44 @@
 package com.example.parkedcardriver.view.RequestSlot;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.parkedcardriver.Adapters.SlotAdapter;
 import com.example.parkedcardriver.Common.Common;
 import com.example.parkedcardriver.Model.Event.SelectedPlaceEvent;
 import com.example.parkedcardriver.R;
+import com.example.parkedcardriver.Repository.SearchSlotRepository;
 import com.example.parkedcardriver.ViewModel.Remote.IGoogleAPI;
 import com.example.parkedcardriver.ViewModel.Remote.RetrofitClient;
+import com.example.parkedcardriver.ViewModel.SlotViewModel;
+import com.example.parkedcardriver.databinding.ActivityRequestSlotBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -50,7 +64,9 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
@@ -62,6 +78,15 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
     private GoogleMap mMap;
 
     private SelectedPlaceEvent selectedPlaceEvent;
+
+    // For fetching searched slot data
+    ActivityRequestSlotBinding binding;
+    SlotViewModel slotViewModel;
+
+    SlotAdapter slotAdapter;
+    // -------------------------------
+
+    private View view;
 
     // Routes
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -81,11 +106,19 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
     @Override
     protected void onStop() {
         compositeDisposable.clear();
+        slotViewModel.clearComposite();
         super.onStop();
         if(EventBus.getDefault().hasSubscriberForEvent(SelectedPlaceEvent.class)){
             EventBus.getDefault().removeStickyEvent(SelectedPlaceEvent.class);
         }
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        compositeDisposable.clear();
+        slotViewModel.clearComposite();
+        super.onDestroy();
     }
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
@@ -97,14 +130,78 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_request_slot);
+        // setContentView(R.layout.activity_request_slot);
 
         init();
+        bindingView();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+
+        initSlotViewModel();
+    }
+
+    private void loadSlotData() {
+        slotViewModel.getSearchedSlots().observe(this, slots->{
+            slotAdapter = new SlotAdapter(RequestSlotActivity.this, slots);
+            LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(RequestSlotActivity.this, R.anim.layout_animation);
+            binding.searchedSlotsRecyclerView.setLayoutAnimation(controller);
+            binding.searchedSlotsRecyclerView.setAdapter(slotAdapter);
+        });
+    }
+
+    private void initSlotViewModel() {
+        slotViewModel = new ViewModelProvider(this).get(SlotViewModel.class);
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                String destination = selectedPlaceEvent.getDestinationString();
+                Double latitude = Double.parseDouble(destination.split(",")[0]);
+                Double longitude = Double.parseDouble(destination.split(",")[1]);
+                slotViewModel.setLatitude(latitude);
+                slotViewModel.setLongitude(longitude);
+
+                // Get city name
+                // Get the address from lat & lng
+                String city = null;
+                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                List<Address> addressList;
+                try {
+                    addressList = geocoder.getFromLocation(latitude,
+                            longitude, 1);
+                    if (addressList != null) {
+                        //String address = addressList.get(0).getAddressLine(0);
+                        city = addressList.get(0).getLocality();
+                        //String state = addressList.get(0).getAdminArea();
+                        //String zip = addressList.get(0).getPostalCode();
+                        //String country = addressList.get(0).getCountryName();
+
+                        Log.d("Destination City",  city);
+                    }
+                } catch (IOException e) {
+
+                }
+
+                slotViewModel.setCity(city);
+                SearchSlotRepository searchSlotRepository = new SearchSlotRepository(latitude, longitude, city);
+                slotViewModel.setSearchSlotRepository(searchSlotRepository);
+
+                loadSlotData();
+            }
+        }, 1000);
+    }
+
+    private void bindingView() {
+        binding = ActivityRequestSlotBinding.inflate(getLayoutInflater());
+        View view = binding.getRoot();
+        setContentView(view);
+
+        binding.searchedSlotsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        binding.searchedSlotsRecyclerView.setHasFixedSize(true);
     }
 
     @Override
@@ -138,8 +235,8 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) locationButton.getLayoutParams();
         // Right Bottom
         params.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
-        params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        params.setMargins(0, 0, 35, 350);
+        params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
+        params.setMargins(0, 350, 35, 0);
 
         mMap.getUiSettings().setZoomControlsEnabled(true);
         try {
@@ -196,7 +293,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                         valueAnimator.setInterpolator(new LinearInterpolator());
                         valueAnimator.addUpdateListener(value -> {
                             List<LatLng> points = greyPolyline.getPoints();
-                            int percentValue = (int)valueAnimator.getAnimatedValue();
+                            int percentValue = (int)value.getAnimatedValue();
                             int size = points.size();
                             int newPoints = (int)(size * (percentValue/100f));
                             List<LatLng> p = points.subList(0, newPoints);

@@ -8,6 +8,10 @@
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/debug/res/menu/top_app_bar.xml" value="0.3359375" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable-v24/rounded_button_black.xml" value="0.3703125" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable/ic_arrow_back_black_24dp.xml" value="0.35625" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable/ic_baseline_near_me_24.xml" value="0.35625" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable/ic_baseline_star_24.xml" value="0.35625" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable/ic_baseline_stars_24.xml" value="0.35625" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable/ic_baseline_work_24.xml" value="0.35625" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable/ic_search_white.xml" value="0.35625" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable/rectangle_round.xml" value="0.35625" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable/round_button_purple.xml" value="0.35625" />
@@ -21,12 +25,14 @@
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/font/amita.xml" value="0.1" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/font/courgette.xml" value="0.37447916666666664" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/activity_main.xml" value="0.3359375" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/activity_request_slot.xml" value="0.33106884057971014" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/destination_info_box.xml" value="0.75" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/fragment_maps.xml" value="0.1" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/fragment_splash_screen.xml" value="0.33" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/nav_header.xml" value="0.1" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/origin_info_box.xml" value="0.5" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/slot_row_item_layout.xml" value="0.1" />
       </map>
     </option>
   </component>

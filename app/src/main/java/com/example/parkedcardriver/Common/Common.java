@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Common {
+
     public static void setWelcomeMessage(TextView txt_welcome) {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         if(hour>=1 && hour <=12){
