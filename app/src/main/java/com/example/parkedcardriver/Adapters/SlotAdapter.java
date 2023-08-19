@@ -38,9 +38,12 @@ public class SlotAdapter extends RecyclerView.Adapter<SlotAdapter.MyViewHolder> 
     public void onBindViewHolder(@NonNull SlotAdapter.MyViewHolder holder, int position) {
         holder.addressTextView.setText(slotModelArrayList.get(position).getAddress());
         holder.ratingTextView.setText(String.valueOf(slotModelArrayList.get(position).getRating()));
-        holder.timeTextView.setText(String.valueOf(slotModelArrayList.get(position).getTimeNeeded()));
-        holder.fareTextView.setText(String.valueOf(slotModelArrayList.get(position).getPrice()));
-        holder.distanceTextView.setText(String.valueOf(slotModelArrayList.get(position).getDistance()));
+        /**
+         * To setup time for each places
+         */
+        // holder.timeTextView.setText(String.valueOf(slotModelArrayList.get(position).getTimeNeeded()));
+        holder.fareTextView.setText(String.valueOf("BDT " + slotModelArrayList.get(position).getPrice()));
+        holder.distanceTextView.setText(String.format("%.2f",(slotModelArrayList.get(position).getDistance()/1000.0)) + " km");
     }
 
     @Override
