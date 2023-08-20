@@ -81,8 +81,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     TextView txt_work_address;
     @BindView(R.id.saved_near_me_maps)
     TextView txt_near_me;
+    @BindView(R.id.near_me_lat_lng)
+    TextView near_me_lat_lng;
 
     private AutocompleteSupportFragment autocompleteSupportFragment;
+    private View myView;
     // ----------------------------
 
 
@@ -151,6 +154,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                                             public void onSuccess(Location location) {
                                                 LatLng userLatLng = new LatLng(location.getLatitude(), location.getLongitude());
                                                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng, 18f));
+                                                System.out.println("eikhane ashche");
                                             }
                                         });
                             }
@@ -205,6 +209,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.myView = view;
 
         init();
         // ---------------
@@ -243,13 +248,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         if (workAddress != null) {
             String address = workAddress.get(0).getAddressLine(0);
             String city = workAddress.get(0).getLocality();
-            String state = workAddress.get(0).getAdminArea();
-            String zip = workAddress.get(0).getPostalCode();
+//            String state = workAddress.get(0).getAdminArea();
+//            String zip = workAddress.get(0).getPostalCode();
             String country = workAddress.get(0).getCountryName();
 
             txt_work_address.setText(address + ", " + city + ", " + country);
 
-            Log.d("Full Address", address + ", " + city + ", " + state + ", " + zip + ", " + country);
+            Log.d("Full Address", address + ", " + city + ", " + country);
         }
 
         LinearLayout workAddressLayout = view.findViewById(R.id.linearlayout_work_maps);
@@ -271,12 +276,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 });
             }
         });
+    }
+    // --------------------------------
 
+    private void setupQuickSearchInfo(){
         /**
          * For nearby me places
          */
-        TextView nearMeLatLng = view.findViewById(R.id.near_me_lat_lng);
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+        TextView nearMeLatLng = myView.findViewById(R.id.near_me_lat_lng);
         String nearLatLng = (String) nearMeLatLng.getText();
+        Log.d("Near me latlng", nearLatLng);
         Double lat_nearMe_address = Double.parseDouble(nearLatLng.split(",")[0]);
         Double lng_nearMe_address = Double.parseDouble(nearLatLng.split(",")[1]);
         List<Address> nearMeAddress = null;
@@ -289,16 +299,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         if (nearMeAddress != null) {
             String address = nearMeAddress.get(0).getAddressLine(0);
             String city = nearMeAddress.get(0).getLocality();
-            String state = nearMeAddress.get(0).getAdminArea();
-            String zip = nearMeAddress.get(0).getPostalCode();
+//            String state = nearMeAddress.get(0).getAdminArea();
+//            String zip = nearMeAddress.get(0).getPostalCode();
             String country = nearMeAddress.get(0).getCountryName();
 
             txt_near_me.setText(address + ", " + city + ", " + country);
 
-            Log.d("Full Address", address + ", " + city + ", " + state + ", " + zip + ", " + country);
+            Log.d("Full Address", address + ", " + city + ", " + country);
         }
 
-        LinearLayout nearMeAddressLayout = view.findViewById(R.id.linearlayout_near_me_maps);
+        LinearLayout nearMeAddressLayout = myView.findViewById(R.id.linearlayout_near_me_maps);
         nearMeAddressLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -318,7 +328,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             }
         });
     }
-    // --------------------------------
 
     private void init() {
 
@@ -403,6 +412,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 }
 
                 Log.d("LatAndLng", locationResult.getLastLocation().getLatitude() + " " + locationResult.getLastLocation().getLongitude());
+                /**
+                 * Quick Search setup
+                 * */
+                near_me_lat_lng.setText(String.valueOf(locationResult.getLastLocation().getLatitude()) + "," + String.valueOf(locationResult.getLastLocation().getLongitude()));
+                setupQuickSearchInfo();
             }
         };
 

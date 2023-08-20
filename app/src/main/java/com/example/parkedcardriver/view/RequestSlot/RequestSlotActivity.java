@@ -243,7 +243,20 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
             }
         });
 
-        drawPath(selectedPlaceEvent);
+        if(!selectedPlaceEvent.getOriginString().equals(selectedPlaceEvent.getDestinationString())){
+            drawPath(selectedPlaceEvent);
+        }
+        else{
+            LatLngBounds latLngBounds = new LatLngBounds.Builder()
+                    .include(selectedPlaceEvent.getOrigin())
+                    .include(selectedPlaceEvent.getDestination())
+                    .build();
+
+            mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 160));
+            mMap.moveCamera(CameraUpdateFactory.zoomTo(mMap.getCameraPosition().zoom - 1));
+        }
+
+
 
         View locationButton = ((View) findViewById(Integer.parseInt("1"))
                 .getParent()).findViewById(Integer.parseInt("2"));
