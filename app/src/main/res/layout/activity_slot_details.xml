@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:padding="16dp"
+tools:context=".view.RequestSlot.SlotDetailsActivity">
+
+    <TextView
+        android:id="@+id/textViewAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Address: Placeholder Address"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Distance: Placeholder Distance"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Price: Placeholder Price"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewSecurityMeasures"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Security Measures:"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <CheckBox
+        android:id="@+id/checkBoxGuard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Guard"
+        android:checked="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:layout_marginBottom="8dp"/>
+
+    <CheckBox
+        android:id="@+id/checkBoxCCTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="CCTV"
+        android:checked="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:layout_marginBottom="16dp"/>
+
+    <CheckBox
+        android:id="@+id/checkBoxIndoor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Indoor"
+        android:checked="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:clickable="false"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/textViewDimensions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Dimensions:"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewWidth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Width: Placeholder Width"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewHeight"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Height: Placeholder Height"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewLength"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Length: Placeholder Length"
+        android:textSize="18sp"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/textViewRating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Rating: Placeholder Rating"
+        android:textSize="18sp"
+        android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:id="@+id/textViewBookings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Total Bookings: Placeholder Bookings"
+        android:textSize="18sp"/>
+</LinearLayout>

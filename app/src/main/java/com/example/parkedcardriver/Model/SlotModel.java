@@ -2,7 +2,9 @@ package com.example.parkedcardriver.Model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SlotModel {
+import java.io.Serializable;
+
+public class SlotModel implements Serializable {
 
     @SerializedName("id")
     private Integer id;

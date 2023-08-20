@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.Manifest;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -19,6 +20,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -61,6 +63,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -70,7 +73,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 
-public class RequestSlotActivity extends FragmentActivity implements OnMapReadyCallback {
+public class RequestSlotActivity extends FragmentActivity implements OnMapReadyCallback, SlotAdapter.SlotItemClickListener {
 
     private GoogleMap mMap;
 
@@ -81,6 +84,8 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
     SlotViewModel slotViewModel;
 
     SlotAdapter slotAdapter;
+
+    ArrayList<SlotModel> listOfSearchedSlots;
     // -------------------------------
 
     private View view;
@@ -150,9 +155,22 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
             slotAdapter.setSlotModelArrayList(slots);
             slotAdapter.notifyDataSetChanged();
 
+            listOfSearchedSlots = slots;
+
             for(SlotModel slot: slots){
                 addParkHereMarker(new LatLng(slot.getLatitude(), slot.getLongitude()), slot.getAddress());
             }
+
+            slotAdapter.addItemClickListener(new SlotAdapter.SlotItemClickListener() {
+                @Override
+                public void onItemClick(int position) {
+                     Toast.makeText(getApplicationContext(),"Click on item: " + position,Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), SlotDetailsActivity.class);
+                    intent.putExtra("Slot_Details", listOfSearchedSlots.get(position));
+                    startActivity(new Intent(getApplicationContext(), SlotDetailsActivity.class));
+                    // EventBus.getDefault().postSticky(listOfSearchedSlots.get(position));
+                }
+            });
         });
 
         initSlotViewModel();
@@ -421,5 +439,10 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
     private void init()
     {
         iGoogleAPI = RetrofitClient.getInstance().create(IGoogleAPI.class);
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        // Nothing to do
     }
 }

@@ -6,6 +6,7 @@
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/ParkedCar-Driver/app/src/main/res/drawable/ic_baseline_near_me_24.xml" value="0.35625" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/ParkedCar-Driver/app/src/main/res/drawable/ic_search_white.xml" value="0.35625" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/ParkedCar-Driver/app/src/main/res/layout/activity_request_slot.xml" value="0.1" />
+        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/ParkedCar-Driver/app/src/main/res/layout/activity_slot_details.xml" value="0.33" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/ParkedCar-Driver/app/src/main/res/layout/destination_info_box.xml" value="0.33016304347826086" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/ParkedCar-Driver/app/src/main/res/layout/fragment_home.xml" value="0.17864583333333334" />
         <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/ParkedCar-Driver/app/src/main/res/layout/fragment_maps.xml" value="0.33016304347826086" />
@@ -43,7 +44,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

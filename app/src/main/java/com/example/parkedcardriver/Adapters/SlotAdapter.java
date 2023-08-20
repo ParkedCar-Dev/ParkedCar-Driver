@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +19,7 @@ public class SlotAdapter extends RecyclerView.Adapter<SlotAdapter.MyViewHolder> 
 
     private Context context;
     private ArrayList<SlotModel> slotModelArrayList;
+    private SlotItemClickListener mItemClickListener;
 
     public void setSlotModelArrayList(ArrayList<SlotModel> slotModelArrayList) {
         this.slotModelArrayList = slotModelArrayList;
@@ -34,6 +36,10 @@ public class SlotAdapter extends RecyclerView.Adapter<SlotAdapter.MyViewHolder> 
         return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.slot_row_item_layout, parent, false));
     }
 
+    public void addItemClickListener(SlotItemClickListener listener) {
+        mItemClickListener = listener;
+    }
+
     @Override
     public void onBindViewHolder(@NonNull SlotAdapter.MyViewHolder holder, int position) {
         holder.addressTextView.setText(slotModelArrayList.get(position).getAddress());
@@ -44,6 +50,15 @@ public class SlotAdapter extends RecyclerView.Adapter<SlotAdapter.MyViewHolder> 
         // holder.timeTextView.setText(String.valueOf(slotModelArrayList.get(position).getTimeNeeded()));
         holder.fareTextView.setText(String.valueOf("BDT " + slotModelArrayList.get(position).getPrice()));
         holder.distanceTextView.setText(String.format("%.2f",(slotModelArrayList.get(position).getDistance()/1000.0)) + " km");
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItemClickListener != null) {
+                    mItemClickListener.onItemClick(position);
+                }
+            }
+        });
     }
 
     @Override
@@ -64,5 +79,9 @@ public class SlotAdapter extends RecyclerView.Adapter<SlotAdapter.MyViewHolder> 
             fareTextView = (TextView) itemView.findViewById(R.id.fareTextView);
             distanceTextView = (TextView) itemView.findViewById(R.id.distanceTextView);
         }
+    }
+
+    public interface SlotItemClickListener {
+        void onItemClick(int position);
     }
 }
