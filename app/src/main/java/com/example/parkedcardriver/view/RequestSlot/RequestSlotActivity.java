@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 import com.example.parkedcardriver.Adapters.SlotAdapter;
 import com.example.parkedcardriver.Common.Common;
 import com.example.parkedcardriver.Model.Event.SelectedPlaceEvent;
+import com.example.parkedcardriver.Model.SlotModel;
 import com.example.parkedcardriver.R;
 import com.example.parkedcardriver.Repository.SearchSlotRepository;
 import com.example.parkedcardriver.ViewModel.Remote.IGoogleAPI;
@@ -147,6 +149,10 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
         slotViewModel.getSearchedSlots().observe(this, slots->{
             slotAdapter.setSlotModelArrayList(slots);
             slotAdapter.notifyDataSetChanged();
+
+            for(SlotModel slot: slots){
+                addParkHereMarker(new LatLng(slot.getLatitude(), slot.getLongitude()), slot.getAddress());
+            }
         });
 
         initSlotViewModel();
@@ -339,6 +345,26 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                     }
                 })
         );
+    }
+
+    @SuppressLint("PotentialBehaviorOverride")
+    private void addParkHereMarker(LatLng latlng, String address){
+        View view = getLayoutInflater().inflate(R.layout.park_here, null);
+
+        TextView txt_park_here = (TextView) view.findViewById(R.id.txt_park_here);
+
+        txt_park_here.setText(address);
+
+        // Create icon for marker
+        IconGenerator generator = new IconGenerator(this);
+        generator.setContentView(view);
+        generator.setBackground(new ColorDrawable(Color.TRANSPARENT));
+        Bitmap icon = generator.makeIcon();
+
+        mMap.addMarker(new MarkerOptions()
+                .icon(BitmapDescriptorFactory.fromBitmap(icon))
+                .position(latlng));
+
     }
 
     private void addDestinationMarker(String end_address) {
