@@ -14,4 +14,6 @@
     <string name="dimensions">Dimensions:</string>
     <string name="cctv">CCTV</string>
     <string name="indoor">Indoor</string>
+    <string name="select_slot">Select Slot</string>
+    <string name="advance_search">Advance Search</string>
 </resources>

@@ -11,6 +11,7 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.LinearInterpolator;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -68,6 +70,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
@@ -75,9 +79,14 @@ import io.reactivex.schedulers.Schedulers;
 
 public class RequestSlotActivity extends FragmentActivity implements OnMapReadyCallback, SlotAdapter.SlotItemClickListener {
 
+    @BindView(R.id.selectSpotButton)
+    Button selectSpotButton;
+
     private GoogleMap mMap;
 
     private SelectedPlaceEvent selectedPlaceEvent;
+
+    SlotModel selectedSlot = null;
 
     // For fetching searched slot data
     ActivityRequestSlotBinding binding;
@@ -164,16 +173,28 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
             slotAdapter.addItemClickListener(new SlotAdapter.SlotItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                     Toast.makeText(getApplicationContext(),"Click on item: " + position,Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), SlotDetailsActivity.class);
-                    intent.putExtra("Slot_Details", listOfSearchedSlots.get(position));
-                    startActivity(intent);
+                    Toast.makeText(getApplicationContext(),"Click on item: " + position,Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(getApplicationContext(), SlotDetailsActivity.class);
+//                    intent.putExtra("Slot_Details", listOfSearchedSlots.get(position));
+//                    startActivity(intent);
+                    selectedSlot = listOfSearchedSlots.get(position);
+                    selectSpotButton.setEnabled(true);
+                    selectSpotButton.setBackgroundTintList(ColorStateList.valueOf(0xFF018786));
+
                     // EventBus.getDefault().postSticky(listOfSearchedSlots.get(position));
                 }
             });
         });
 
         initSlotViewModel();
+        selectSpotButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), SlotDetailsActivity.class);
+                intent.putExtra("Slot_Details", selectedSlot);
+                startActivity(intent);
+            }
+        });
     }
 
 
@@ -187,7 +208,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
 //    }
 
     private void initSlotViewModel() {
-
+        ButterKnife.bind(this, getWindow().getDecorView().getRootView());
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             public void run() {

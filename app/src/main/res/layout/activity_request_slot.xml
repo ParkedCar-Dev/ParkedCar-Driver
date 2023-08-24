@@ -21,13 +21,60 @@
         android:background="@android:color/white"
         android:layout_marginTop="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHeight_percent="0.45"
+        app:layout_constraintHeight_percent="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40sp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginEnd="4sp">
+
+            <!-- Text: 'Select a Spot' centered vertically and horizontally -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Select a Slot"
+                android:textSize="19sp"
+                android:fontFamily="@font/move_bold"
+                android:gravity="center"
+                android:layout_marginStart="60sp"/>
+
+            <!-- Sort Button with Image -->s
+            <ImageButton
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:id="@+id/spot_sort_button"
+                android:src="@drawable/ic_baseline_sort_24"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <!-- Filter Button with Image -->
+            <ImageButton
+                android:layout_width="40sp"
+                android:layout_height="40sp"
+                android:id="@+id/spot_filter_button"
+                android:src="@drawable/ic_baseline_filter_alt_24"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:background="@android:color/darker_gray"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
             android:id="@+id/searched_slots_recycler_view"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
@@ -36,6 +83,49 @@
             android:layout_marginRight="8dp"
             android:layout_marginBottom="8dp"
             android:padding="4dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40sp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="5sp">
+
+            <!-- Button: Select Spot (Initially Unclickable) -->
+            <Button
+                android:id="@+id/selectSpotButton"
+                android:layout_width="0dp"
+                android:layout_height="45sp"
+                android:layout_weight="1"
+                android:text="@string/select_slot"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="8dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:clickable="true"
+                android:enabled="false"
+                android:focusable="true" />
+
+            <!-- Button: Advance Search -->
+            <Button
+                android:id="@+id/advanceSearchButton"
+                android:layout_width="0dp"
+                android:layout_height="45sp"
+                android:layout_weight="1"
+                android:text="@string/advance_search"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="16dp"
+                android:paddingStart="16dp"
+                android:backgroundTint="@color/teal_700"
+                android:paddingEnd="16dp"
+                android:clickable="true"
+                android:enabled="true"
+                android:focusable="true"/>
+        </LinearLayout>
 
 
     </LinearLayout>
