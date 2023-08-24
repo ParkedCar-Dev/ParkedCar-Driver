@@ -11,6 +11,9 @@ import java.util.List;
 
 public class Common {
 
+    public static final String KEY_ENABLE_BUTTON_NEXT = "ENABLE_BUTTON_NEXT";
+    public static int step = 0;
+
     public static void setWelcomeMessage(TextView txt_welcome) {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
         if(hour>=1 && hour <=12){

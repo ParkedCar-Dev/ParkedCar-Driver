@@ -1,29 +1,19 @@
 package com.example.parkedcardriver.view.RequestSlot;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.parkedcardriver.Model.Event.SelectedPlaceEvent;
 import com.example.parkedcardriver.Model.SlotModel;
 import com.example.parkedcardriver.R;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
-import java.io.Serializable;
+import com.example.parkedcardriver.view.BookingSlot.BookSlotActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +45,9 @@ public class SlotDetailsActivity extends AppCompatActivity {
     CardView slot_security_indoor_cardView;
     @BindView(R.id.slot_security_cctv_cardView)
     CardView slot_security_cctv_cardView;
+
+    @BindView(R.id.book_slot_button)
+    Button book_slot_button;
 
     SlotModel slotModel;
 
@@ -93,5 +86,12 @@ public class SlotDetailsActivity extends AppCompatActivity {
                 slot_security_indoor_cardView.setBackgroundTintList(ColorStateList.valueOf(0xff87CEEB));
             }
         }
+
+        book_slot_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), BookSlotActivity.class));
+            }
+        });
     }
 }

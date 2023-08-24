@@ -20,6 +20,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ParkedCarDriver">
         <activity
+            android:name=".view.BookingSlot.BookSlotActivity"
+            android:exported="false" />
+        <activity
             android:name=".view.RequestSlot.SlotDetailsActivity"
             android:exported="false" />
         <!--

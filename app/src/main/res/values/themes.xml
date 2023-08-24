@@ -22,4 +22,8 @@
     <style name="SearchViewStyle" >
         <item name="android:editTextColor">#FFFFFF</item>
     </style>
+
+    <style name="DialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="colorAccent">@color/black</item>
+    </style>
 </resources>
