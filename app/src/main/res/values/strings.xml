@@ -8,4 +8,10 @@
     <string name="choose_a_saved_place">Choose a saved place</string>
     <string name="where_to_park">Where to Park?</string>
     <string name="title_activity_request_slot">RequestSlotActivity</string>
+    <string name="slot_details">Slot Details</string>
+    <string name="security_measures">Security Measures:</string>
+    <string name="guard">Guard</string>
+    <string name="dimensions">Dimensions:</string>
+    <string name="cctv">CCTV</string>
+    <string name="indoor">Indoor</string>
 </resources>

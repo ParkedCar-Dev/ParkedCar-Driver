@@ -167,7 +167,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                      Toast.makeText(getApplicationContext(),"Click on item: " + position,Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), SlotDetailsActivity.class);
                     intent.putExtra("Slot_Details", listOfSearchedSlots.get(position));
-                    startActivity(new Intent(getApplicationContext(), SlotDetailsActivity.class));
+                    startActivity(intent);
                     // EventBus.getDefault().postSticky(listOfSearchedSlots.get(position));
                 }
             });

@@ -34,6 +34,8 @@ public class SlotModel implements Serializable {
     private Double rating;
     @SerializedName("total_books")
     private Integer totalBooks;
+    @SerializedName("owner_name")
+    private String owner_name;
 
     private Integer timeNeeded;
 
@@ -157,5 +159,11 @@ public class SlotModel implements Serializable {
         this.totalBooks = totalBooks;
     }
 
+    public String getOwner_name() {
+        return owner_name;
+    }
 
+    public void setOwner_name(String owner_name) {
+        this.owner_name = owner_name;
+    }
 }
