@@ -69,9 +69,9 @@ public class LoginFragment extends Fragment {
             else{
                 Toast.makeText(getContext(), "Login Successful", Toast.LENGTH_SHORT).show();
                 TokenManager.getInstance().setToken(result.getToken());
-//                Intent intent = new Intent(getContext(), MainActivity.class);
-//                startActivity(intent);
-//                getActivity().finish();
+                Intent intent = new Intent(getContext(), MainActivity.class);
+                startActivity(intent);
+                getActivity().finish();
             }
         });
 
