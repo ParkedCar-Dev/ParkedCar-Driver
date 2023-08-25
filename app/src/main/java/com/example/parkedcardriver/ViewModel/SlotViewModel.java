@@ -17,14 +17,18 @@ public class SlotViewModel extends ViewModel {
 
     SearchSlotRepository searchSlotRepository;
 
+    public SlotViewModel(){
+        slotModelLiveData = new MutableLiveData<>();
+    }
+
     public void setSearchSlotRepository(SearchSlotRepository searchSlotRepository) {
         this.searchSlotRepository = searchSlotRepository;
     }
 
     public LiveData<ArrayList<SlotModel>> getSearchedSlots() {
-        if(slotModelLiveData == null){
-            slotModelLiveData = new MutableLiveData<>();
-        }
+//        if(slotModelLiveData == null){
+//            slotModelLiveData = new MutableLiveData<>();
+//        }
         return slotModelLiveData;
     }
 

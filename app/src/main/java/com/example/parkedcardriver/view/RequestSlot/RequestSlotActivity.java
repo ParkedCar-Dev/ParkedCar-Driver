@@ -42,6 +42,7 @@ import com.example.parkedcardriver.ViewModel.Remote.IGoogleAPI;
 import com.example.parkedcardriver.ViewModel.Remote.RetrofitClient;
 import com.example.parkedcardriver.ViewModel.SlotViewModel;
 import com.example.parkedcardriver.databinding.ActivityRequestSlotBinding;
+import com.example.parkedcardriver.view.auth.AuthActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -161,6 +162,15 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
 
         slotViewModel.setSearchSlotRepository(searchSlotRepository);
         slotViewModel.getSearchedSlots().observe(this, slots->{
+            if(slots == null){
+//                go to auth activity
+                Toast.makeText(getApplicationContext(), "Please Login to Continue", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
+                startActivity(intent);
+                return;
+            }
+
+
             slotAdapter.setSlotModelArrayList(slots);
             slotAdapter.notifyDataSetChanged();
 

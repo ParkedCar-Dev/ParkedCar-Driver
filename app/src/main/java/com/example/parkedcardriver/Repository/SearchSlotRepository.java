@@ -26,10 +26,6 @@ public class SearchSlotRepository {
     private Double latitude, longitude;
     private String city;
 
-    private ArrayList<SlotModel> slotModelArrayList = new ArrayList<>();
-
-    private MutableLiveData<ArrayList<SlotModel>> mutableLiveData = new MutableLiveData<>();
-
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public SearchSlotRepository() {
@@ -39,7 +35,7 @@ public class SearchSlotRepository {
         compositeDisposable.clear();
     }
 
-    public void getSearchedSlots(double latitude, double longitude, String city, MutableLiveData<ArrayList<SlotModel>> mutableLiveData){
+    public void getSearchedSlots(double latitude, double longitude, String city, MutableLiveData<ArrayList<SlotModel>> spaceList){
         Retrofit retrofitClient = new RetrofitClient().getInstance();
         SearchSlotService searchSlotService = retrofitClient.create(SearchSlotService.class);
 
@@ -69,11 +65,14 @@ public class SearchSlotRepository {
                     Log.d("SEARCH_SLOT_REPO", searchSlotModel.getMessage());
                     Log.d("SEARCH_SLOT_REPO", searchSlotModel.toString());
                     if(searchSlotModel.getSpaces() != null && searchSlotModel.getSpaces().size() > 0){
-                        mutableLiveData.setValue(searchSlotModel.getSpaces());
+                        spaceList.setValue(searchSlotModel.getSpaces());
                     }
                 } else {
                     // Handle error responses here
                     Log.d("SEARCH_SLOT_REPO", "Error Response: "+response.message());
+                    if(response.code() == 401){
+                        spaceList.setValue(null);
+                    }
                 }
             }
 
