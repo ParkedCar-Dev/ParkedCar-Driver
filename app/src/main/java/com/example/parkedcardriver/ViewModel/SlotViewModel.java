@@ -32,6 +32,10 @@ public class SlotViewModel extends ViewModel {
         return slotModelLiveData;
     }
 
+    public void setSearchedSlots(ArrayList<SlotModel> slotModelLiveData) {
+        this.slotModelLiveData.setValue(slotModelLiveData);
+    }
+
     public void searchSlots(){
         searchSlotRepository.getSearchedSlots(latitude, longitude, city, slotModelLiveData);
     }

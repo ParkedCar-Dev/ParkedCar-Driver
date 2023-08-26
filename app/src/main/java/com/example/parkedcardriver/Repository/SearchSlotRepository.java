@@ -25,10 +25,15 @@ public class SearchSlotRepository {
 
     private Double latitude, longitude;
     private String city;
+    private static SearchSlotRepository searchSlotRepository;
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
-    public SearchSlotRepository() {
+    public static SearchSlotRepository getInstance(){
+        if(searchSlotRepository == null){
+            searchSlotRepository = new SearchSlotRepository();
+        }
+        return searchSlotRepository;
     }
 
     public void clearComposite(){
@@ -65,6 +70,7 @@ public class SearchSlotRepository {
                     Log.d("SEARCH_SLOT_REPO", searchSlotModel.getMessage());
                     Log.d("SEARCH_SLOT_REPO", searchSlotModel.toString());
                     if(searchSlotModel.getSpaces() != null && searchSlotModel.getSpaces().size() > 0){
+                        Log.d("SEARCH_SLOT_REPO", "Setting up spaces");
                         spaceList.setValue(searchSlotModel.getSpaces());
                     }
                 } else {

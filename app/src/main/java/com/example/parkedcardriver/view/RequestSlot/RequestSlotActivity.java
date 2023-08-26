@@ -3,6 +3,8 @@ package com.example.parkedcardriver.view.RequestSlot;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -82,6 +84,8 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
 
     @BindView(R.id.selectSpotButton)
     Button selectSpotButton;
+    @BindView(R.id.advanceSearchButton)
+    Button advanceSearchButton;
 
     private GoogleMap mMap;
 
@@ -95,7 +99,8 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
 
     SlotAdapter slotAdapter;
 
-    ArrayList<SlotModel> listOfSearchedSlots;
+    ArrayList<SlotModel> listOfSearchedSlots = new ArrayList<>();
+    ArrayList<Marker> listOfMarkers = new ArrayList<>();
     // -------------------------------
 
     private View view;
@@ -152,7 +157,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        SearchSlotRepository searchSlotRepository = new SearchSlotRepository();
+        SearchSlotRepository searchSlotRepository = SearchSlotRepository.getInstance();
         slotViewModel = new ViewModelProvider(this).get(SlotViewModel.class);
 
         slotAdapter = new SlotAdapter(RequestSlotActivity.this, new ArrayList<>());
@@ -165,6 +170,8 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
             if(slots == null){
 //                go to auth activity
                 Toast.makeText(getApplicationContext(), "Please Login to Continue", Toast.LENGTH_SHORT).show();
+//                slots = new ArrayList<>();
+                slotViewModel.setSearchedSlots(new ArrayList<>());
                 Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
                 startActivity(intent);
                 return;
@@ -197,6 +204,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
         });
 
         initSlotViewModel();
+
         selectSpotButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -423,9 +431,9 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
         generator.setBackground(new ColorDrawable(Color.TRANSPARENT));
         Bitmap icon = generator.makeIcon();
 
-        mMap.addMarker(new MarkerOptions()
+        listOfMarkers.add(mMap.addMarker(new MarkerOptions()
                 .icon(BitmapDescriptorFactory.fromBitmap(icon))
-                .position(latlng));
+                .position(latlng)));
 
     }
 
