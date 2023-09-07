@@ -25,4 +25,12 @@
     <string name="phone">Phone No</string>
     <string name="signup">Sign Up</string>
     <string name="go_to_login">Already have an account</string>
+    <string-array name="priceRangeSlider">
+        <item>40</item>
+        <item>150</item>
+    </string-array>
+    <string-array name="distanceRangeSlider">
+        <item>3</item>
+        <item>8</item>
+    </string-array>
 </resources>

@@ -37,6 +37,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
@@ -69,6 +70,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.maps.model.SquareCap;
+import com.google.android.material.slider.RangeSlider;
 import com.google.maps.android.ui.IconGenerator;
 
 import org.greenrobot.eventbus.EventBus;
@@ -83,6 +85,7 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -246,6 +249,111 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
             @Override
             public void onClick(View v) {
                 CreateSortPopUpWindow();
+            }
+        });
+
+        spot_filter_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateFilterPopUpWindow();
+            }
+        });
+    }
+
+    private void CreateFilterPopUpWindow() {
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = layoutInflater.inflate(R.layout.filter_slots_popup, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true;
+
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            }
+        });
+        Button filter, cancel;
+        filter = popUpView.findViewById(R.id.filter_slots_button);
+        cancel = popUpView.findViewById(R.id.filter_cancel_button);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popUpView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RangeSlider priceRangeSlider, distanceRangeSlider;
+                CheckBox guard, indoor, cctv;
+
+                priceRangeSlider = popUpView.findViewById(R.id.priceRangeSlider);
+                distanceRangeSlider = popUpView.findViewById(R.id.distanceRangeSlider);
+                guard = popUpView.findViewById(R.id.checkBoxGuard);
+                indoor = popUpView.findViewById(R.id.checkBoxIndoor);
+                cctv = popUpView.findViewById(R.id.checkBoxCCTV);
+
+                ArrayList<SlotModel> newList = new ArrayList<>();
+                // Toast.makeText(getApplicationContext(), guard.isChecked() + " " + indoor.isChecked() + " " + cctv.isChecked(), Toast.LENGTH_LONG).show();
+
+                Log.d("PriceRange:" , priceRangeSlider.getValues().get(0) + " " + priceRangeSlider.getValues().get(1));
+                Log.d("DistanceRange:" , distanceRangeSlider.getValues().get(0) + " " + distanceRangeSlider.getValues().get(1));
+
+                for(SlotModel slot:listOfSearchedSlots){
+                    Double distance = Double.valueOf(Common.df.format(slot.getDistance()/1000));
+                    Log.d("PriceRange:" , slot.getPrice() + "");
+                    Log.d("DistRange:" , distance + "");
+                    if(priceRangeSlider.getValues().get(0) <= slot.getPrice() && slot.getPrice() <= priceRangeSlider.getValues().get(1)){
+                        if(distanceRangeSlider.getValues().get(0) <= distance && distance <= distanceRangeSlider.getValues().get(1)){
+                            String[] securities = slot.getSecurityMeasures().split("/");
+                            // Log.d("Slot Security: " , Arrays.toString(securities));
+                            boolean check = true;
+//                            for(String security:securities){
+//                                Log.d("Security", security);
+//                                if(security.equals("cctv") && !cctv.isChecked()){
+//                                    check = false;
+//                                    break;
+//                                }
+//                                if(security.equals("guard") && !guard.isChecked()){
+//                                    check = false;
+//                                    break;
+//                                }
+//                                if(security.equals("indoor") && !indoor.isChecked()){
+//                                    check = false;
+//                                    break;
+//                                }
+//                            }
+                            if(guard.isChecked() && !Arrays.asList(securities).contains("guard")){
+                                check = false;
+                            }
+                            if(indoor.isChecked() && !Arrays.asList(securities).contains("indoor")){
+                                check = false;
+                            }
+                            if(cctv.isChecked() && !Arrays.asList(securities).contains("cctv")){
+                                check = false;
+                            }
+                            if(check){
+                                newList.add(slot);
+                            }
+                        }
+                    }
+                }
+
+                slotAdapter.setSlotModelArrayList(newList);
+                slotAdapter.notifyDataSetChanged();
+
+                popupWindow.dismiss();
             }
         });
     }

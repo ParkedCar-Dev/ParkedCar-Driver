@@ -1,6 +1,236 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/quantum_grey200">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/popup_background"
+        android:orientation="vertical"
+        android:layout_margin="10sp"
+        android:padding="22sp">
+        <!-- Popup Title -->
+        <TextView
+            android:id="@+id/popupTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Filter Options"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="8sp"/>
+
+        <!-- First LinearLayout with Price Range -->
+        <LinearLayout
+            android:layout_below="@id/popupTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8sp"
+            android:layout_marginBottom="12sp"
+            android:layout_marginLeft="12sp"
+            android:layout_marginRight="12sp"
+            android:id="@+id/price_range_linearLayout">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Price Range:"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+
+            <!-- Price Range Slider -->
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/priceRangeSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:valueFrom="5"
+                android:valueTo="200"
+                android:stepSize="5"
+                app:values="@array/priceRangeSlider"
+                app:haloColor="@color/colorAccent"
+                app:thumbColor="@color/design_default_color_primary_dark"
+                app:tickColor="@color/design_default_color_error"
+                app:trackColor="@color/quantum_teal600"/>
+
+            <!-- Minimum and Maximum Limit Text -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:layout_weight="1"
+                    android:text="5 Tk."
+                    android:textColor="@color/quantum_teal"
+                    android:textSize="16sp"
+                    tools:ignore="RtlHardcoded" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="200 Tk."
+                    android:textSize="16sp"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:textColor="@color/quantum_teal"
+                    tools:ignore="RtlHardcoded" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Second LinearLayout (Similar to First LinearLayout) -->
+        <LinearLayout
+            android:layout_below="@id/price_range_linearLayout"
+            android:id="@+id/distance_range_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8sp"
+            android:layout_marginBottom="12sp"
+            android:layout_marginLeft="12sp"
+            android:layout_marginRight="12sp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Distance Range:"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+
+            <!-- Price Range Slider -->
+            <com.google.android.material.slider.RangeSlider
+                android:id="@+id/distanceRangeSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:valueFrom="0"
+                android:valueTo="10"
+                android:stepSize="0.5"
+                app:values="@array/distanceRangeSlider"
+                app:haloColor="@color/colorAccent"
+                app:thumbColor="@color/design_default_color_primary_dark"
+                app:tickColor="@color/design_default_color_error"
+                app:trackColor="@color/quantum_teal600"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:layout_weight="1"
+                    android:text="0 km"
+                    android:textColor="@color/quantum_teal"
+                    android:textSize="16sp"
+                    tools:ignore="RtlHardcoded" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10 km"
+                    android:textSize="16sp"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:textColor="@color/quantum_teal"
+                    tools:ignore="RtlHardcoded" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Third LinearLayout for Security Measures -->
+        <LinearLayout
+            android:layout_below="@id/distance_range_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8sp"
+            android:layout_marginStart="10sp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Security Measures:"
+                android:textSize="17sp"
+                android:textStyle="bold"/>
+
+            <!-- Security Measures Checkboxes -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25sp"
+                android:layout_marginTop="10sp"
+                android:orientation="vertical">
+
+                <CheckBox
+                    android:id="@+id/checkBoxGuard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Guard"
+                    android:textSize="16sp"/>
+
+                <CheckBox
+                    android:id="@+id/checkBoxIndoor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Indoor"
+                    android:textSize="16sp"/>
+
+                <CheckBox
+                    android:id="@+id/checkBoxCCTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CCTV"
+                    android:textSize="16sp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="32sp"
+                    android:paddingEnd="32sp"
+                    android:layout_gravity="center"
+                    android:id="@+id/filter_slots_button"
+                    android:text="Filter"
+                    android:textSize="18sp"
+                    android:backgroundTint="@color/teal_700"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:enabled="true"
+                    android:layout_marginEnd="10dp"/>
+
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="0.5"
+                    android:layout_marginStart="10dp"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="32sp"
+                    android:paddingEnd="32sp"
+                    android:layout_gravity="center"
+                    android:id="@+id/filter_cancel_button"
+                    android:text="Cancel"
+                    android:textSize="18sp"
+                    android:backgroundTint="@color/quantum_pink800"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:enabled="true"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

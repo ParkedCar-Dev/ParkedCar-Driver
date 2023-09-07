@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -23,6 +24,8 @@ public class Common {
     public static LatLng destination = null;
     public static ZonedDateTime quickSearchTime = null;
     public static boolean isQuickSearch = true;
+
+    public static final DecimalFormat df = new DecimalFormat("0.00");
 
     public static void setWelcomeMessage(TextView txt_welcome) {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
