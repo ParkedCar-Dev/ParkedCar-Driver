@@ -1,9 +1,15 @@
 package com.example.parkedcardriver.Common;
 
+import android.os.Build;
 import android.widget.TextView;
+
+import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -13,6 +19,10 @@ public class Common {
 
     public static final String KEY_ENABLE_BUTTON_NEXT = "ENABLE_BUTTON_NEXT";
     public static int step = 0;
+    public static LatLng origin = null;
+    public static LatLng destination = null;
+    public static ZonedDateTime quickSearchTime = null;
+    public static boolean isQuickSearch = true;
 
     public static void setWelcomeMessage(TextView txt_welcome) {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -73,4 +83,15 @@ public class Common {
         int firstIndexOfComma = start_address.indexOf(",");
         return start_address.substring(0, firstIndexOfComma); // Get only address
     }
+
+//    @RequiresApi(api = Build.VERSION_CODES.O)
+//    public static ZonedDateTime currentTime(){
+//        ZoneId zoneId = ZoneId.of("Asia/Almaty"); // or ZoneId.of("Asia/Bishkek")
+//
+//        // Create an Instant from the current system time
+//        Instant instant = Instant.now();
+//
+//        // Convert the Instant to a ZonedDateTime in the specified time zone
+//        return instant.atZone(zoneId);
+//    }
 }

@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="400sp"
+        android:layout_height="wrap_content"
         android:background="@drawable/popup_background"
         android:orientation="vertical"
         android:layout_margin="10sp"
@@ -83,19 +83,45 @@
                 />
         </RadioGroup>
 
-        <Button
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingStart="32sp"
-            android:paddingEnd="32sp"
-            android:layout_gravity="center"
-            android:id="@+id/sort_slots_button"
-            android:text="Sort"
-            android:textSize="18sp"
-            android:backgroundTint="@color/teal_700"
-            android:clickable="true"
-            android:focusable="true"
-            android:enabled="true"/>
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_height="wrap_content"
+                android:paddingStart="32sp"
+                android:paddingEnd="32sp"
+                android:layout_gravity="center"
+                android:id="@+id/sort_slots_button"
+                android:text="Sort"
+                android:textSize="18sp"
+                android:backgroundTint="@color/teal_700"
+                android:clickable="true"
+                android:focusable="true"
+                android:enabled="true"
+                android:layout_marginRight="10dp"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="10dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="32sp"
+                android:paddingEnd="32sp"
+                android:layout_gravity="center"
+                android:id="@+id/sort_cancel_button"
+                android:text="Cancel"
+                android:textSize="18sp"
+                android:backgroundTint="@color/quantum_pink800"
+                android:clickable="true"
+                android:focusable="true"
+                android:enabled="true"/>
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </RelativeLayout>

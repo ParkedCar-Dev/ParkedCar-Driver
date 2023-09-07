@@ -2,7 +2,7 @@ package com.example.parkedcardriver.Model.RequestBody;
 
 import com.google.gson.annotations.SerializedName;
 
-public class SearchSlotRequestBody {
+public class QuickSearchSlotRequestBody {
     @SerializedName("latitude")
     private double latitude;
     @SerializedName("longitude")
@@ -10,7 +10,7 @@ public class SearchSlotRequestBody {
     @SerializedName("city")
     private String city;
 
-    public SearchSlotRequestBody(Double latitude, Double longitude, String city) {
+    public QuickSearchSlotRequestBody(Double latitude, Double longitude, String city) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.city = city;

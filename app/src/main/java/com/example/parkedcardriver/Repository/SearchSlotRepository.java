@@ -4,18 +4,16 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.parkedcardriver.Common.Common;
 import com.example.parkedcardriver.Model.APIService.SearchSlotService;
-import com.example.parkedcardriver.Model.RequestBody.SearchSlotRequestBody;
+import com.example.parkedcardriver.Model.RequestBody.QuickSearchSlotRequestBody;
 import com.example.parkedcardriver.Model.SearchSlotModel;
 import com.example.parkedcardriver.Model.SlotModel;
 import com.example.parkedcardriver.ViewModel.Retrofit.RetrofitClient;
 
 import java.util.ArrayList;
 
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,7 +58,7 @@ public class SearchSlotRepository {
 //                }, throwable -> Log.e("Error on Search Slots", "Throwable " + throwable.getMessage()))
 //        );
         Log.d("SEARCH_SLOT_REPO", "Before Call");
-        Call<SearchSlotModel> call = searchSlotService.getSearchedSlots(new SearchSlotRequestBody(latitude, longitude, city));
+        Call<SearchSlotModel> call = searchSlotService.getSearchedSlots(new QuickSearchSlotRequestBody(latitude, longitude, city));
         Log.d("SEARCH_SLOT_REPO", "After Call");
         call.enqueue(new Callback<SearchSlotModel>() {
             @Override

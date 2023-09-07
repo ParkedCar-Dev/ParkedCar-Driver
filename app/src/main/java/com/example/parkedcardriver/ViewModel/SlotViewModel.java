@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.parkedcardriver.Common.Common;
 import com.example.parkedcardriver.Model.SlotModel;
 import com.example.parkedcardriver.Repository.SearchSlotRepository;
 
@@ -37,7 +38,15 @@ public class SlotViewModel extends ViewModel {
     }
 
     public void searchSlots(){
-        searchSlotRepository.getSearchedSlots(latitude, longitude, city, slotModelLiveData);
+        if(Common.isQuickSearch){
+            searchSlotRepository.getSearchedSlots(latitude, longitude, city, slotModelLiveData);
+        }
+        else{
+            /**
+             * Advance Search
+             */
+            searchSlotRepository.getSearchedSlots(latitude, longitude, city, slotModelLiveData);
+        }
     }
 
     public void clearComposite(){

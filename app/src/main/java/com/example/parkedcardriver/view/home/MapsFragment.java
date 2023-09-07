@@ -270,6 +270,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     public void onSuccess(Location location) {
                         LatLng origin = new LatLng(location.getLatitude(), location.getLongitude());
                         LatLng destination = new LatLng(lat_work_address, lng_work_address);
+                        Common.origin = origin;
+                        Common.destination = destination;
+                        Common.isQuickSearch = true;
                         startActivity(new Intent(getContext(), RequestSlotActivity.class));
                         EventBus.getDefault().postSticky(new SelectedPlaceEvent(origin, destination));
                     }
@@ -321,6 +324,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     public void onSuccess(Location location) {
                         LatLng origin = new LatLng(location.getLatitude(), location.getLongitude());
                         LatLng destination = new LatLng(lat_nearMe_address, lng_nearMe_address);
+                        Common.origin = origin;
+                        Common.destination = destination;
+                        Common.isQuickSearch = true;
                         startActivity(new Intent(getContext(), RequestSlotActivity.class));
                         EventBus.getDefault().postSticky(new SelectedPlaceEvent(origin, destination));
                     }
@@ -359,6 +365,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     public void onSuccess(Location location) {
                         LatLng origin = new LatLng(location.getLatitude(), location.getLongitude());
                         LatLng destination = new LatLng(place.getLatLng().latitude, place.getLatLng().longitude);
+                        Common.origin = origin;
+                        Common.destination = destination;
+                        Common.isQuickSearch = true;
                         startActivity(new Intent(getContext(), RequestSlotActivity.class));
                         EventBus.getDefault().postSticky(new SelectedPlaceEvent(origin, destination));
                     }

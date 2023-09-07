@@ -1,6 +1,8 @@
 package com.example.parkedcardriver.view.RequestSlot;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.LiveData;
@@ -21,15 +23,23 @@ import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.PopupWindow;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,9 +79,16 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -86,6 +103,14 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
     Button selectSpotButton;
     @BindView(R.id.advanceSearchButton)
     Button advanceSearchButton;
+
+    @BindView(R.id.spot_sort_button)
+    ImageButton spot_sort_button;
+    @BindView(R.id.spot_filter_button)
+    ImageButton spot_filter_button;
+
+    ConstraintLayout layout;
+
 
     private GoogleMap mMap;
 
@@ -143,6 +168,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
     {
         selectedPlaceEvent = event;
     }
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -156,6 +182,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        layout = findViewById(R.id.RequestSlotActivityConstraintLayout);
 
         SearchSlotRepository searchSlotRepository = SearchSlotRepository.getInstance();
         slotViewModel = new ViewModelProvider(this).get(SlotViewModel.class);
@@ -166,6 +193,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
         binding.searchedSlotsRecyclerView.setAdapter(slotAdapter);
 
         slotViewModel.setSearchSlotRepository(searchSlotRepository);
+        // Common.quickSearchTime = Common.currentTime(); // Set Current time
         slotViewModel.getSearchedSlots().observe(this, slots->{
             if(slots == null){
 //                go to auth activity
@@ -211,6 +239,126 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                 Intent intent = new Intent(getApplicationContext(), SlotDetailsActivity.class);
                 intent.putExtra("Slot_Details", selectedSlot);
                 startActivity(intent);
+            }
+        });
+
+        spot_sort_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateSortPopUpWindow();
+            }
+        });
+    }
+
+    private void CreateSortPopUpWindow() {
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = layoutInflater.inflate(R.layout.sort_slots_popup, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true;
+
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow.showAtLocation(layout, Gravity.CENTER, 0, 0);
+            }
+        });
+        Button sort, cancel;
+        sort = popUpView.findViewById(R.id.sort_slots_button);
+        cancel = popUpView.findViewById(R.id.sort_cancel_button);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popUpView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+        sort.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onClick(View v) {
+                RadioButton distance, fare, rating;
+                RadioButton ascending, descending;
+                distance = popUpView.findViewById(R.id.sort_by_distance);
+                fare = popUpView.findViewById(R.id.sort_by_fare);
+                rating = popUpView.findViewById(R.id.sort_by_rating);
+
+                ascending = popUpView.findViewById(R.id.sort_by_ascending);
+                descending = popUpView.findViewById(R.id.sort_by_descending);
+
+                if(!distance.isChecked() && !fare.isChecked() && !rating.isChecked()){
+                    Toast.makeText(getApplicationContext(), "Please select a sorting criteria!!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(!ascending.isChecked() && !descending.isChecked()){
+                    Toast.makeText(getApplicationContext(), "Please select a sorting option!!", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                else{
+                    ArrayList<SlotModel> newList = new ArrayList<>();
+                    newList = listOfSearchedSlots;
+
+                    if(distance.isChecked()){
+                        Collections.sort(newList, new Comparator<SlotModel>() {
+                            @Override
+                            public int compare(SlotModel o1, SlotModel o2) {
+                                if(Objects.equals(o1.getDistance(), o2.getDistance())){
+                                    return o1.getPrice().compareTo(o2.getPrice());
+                                }
+                                return o1.getDistance().compareTo(o2.getDistance());
+                            }
+                        });
+                    }
+                    else if(fare.isChecked()){
+                        Collections.sort(newList, new Comparator<SlotModel>() {
+                            @Override
+                            public int compare(SlotModel o1, SlotModel o2) {
+                                if(Objects.equals(o1.getPrice(), o2.getPrice())){
+                                    return o1.getDistance().compareTo(o2.getDistance());
+                                }
+                                return o1.getPrice().compareTo(o2.getPrice());
+                            }
+                        });
+                    }
+                    else if(rating.isChecked()){
+                        Collections.sort(newList, new Comparator<SlotModel>() {
+                            @Override
+                            public int compare(SlotModel o1, SlotModel o2) {
+                                if(Objects.equals(o1.getRating(), o2.getRating())){
+                                    return o1.getPrice().compareTo(o2.getPrice());
+                                }
+                                return o1.getRating().compareTo(o2.getRating());
+                            }
+                        });
+                    }
+
+                    if(ascending.isChecked()){
+                        if(!distance.isChecked() && !fare.isChecked() && !rating.isChecked()){
+                            Collections.sort(newList, new Comparator<SlotModel>() {
+                                @Override
+                                public int compare(SlotModel o1, SlotModel o2) {
+                                    return o1.getPrice().compareTo(o2.getPrice());
+                                }
+                            });
+                        }
+                    }
+                    if(descending.isChecked()){
+                        Collections.reverse(newList);
+                    }
+
+                    slotAdapter.setSlotModelArrayList(newList);
+                    slotAdapter.notifyDataSetChanged();
+
+                    popupWindow.dismiss();
+                }
             }
         });
     }
