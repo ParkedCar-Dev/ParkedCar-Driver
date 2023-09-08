@@ -354,6 +354,14 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                 slotAdapter.notifyDataSetChanged();
 
                 popupWindow.dismiss();
+
+                for(Marker marker: listOfMarkers){
+                    marker.remove();
+                }
+                listOfMarkers.clear();
+                for(SlotModel slot:newList){
+                    addParkHereMarker(new LatLng(slot.getLatitude(), slot.getLongitude()), slot.getAddress());
+                }
             }
         });
     }

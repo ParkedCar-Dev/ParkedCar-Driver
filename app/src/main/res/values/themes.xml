@@ -19,11 +19,16 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="SearchViewStyle" >
+    <style name="SearchViewStyle">
         <item name="android:editTextColor">#FFFFFF</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.MaterialComponents.DayNight.Dialog">
         <item name="colorAccent">@color/black</item>
+    </style>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.ParkedCarDriver" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 </resources>

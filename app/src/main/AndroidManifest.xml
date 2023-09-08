@@ -21,6 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ParkedCarDriver">
         <activity
+            android:name=".view.Search.AdvanceSearch"
+            android:exported="false"
+            android:label="@string/title_activity_advance_search"
+            android:theme="@style/Theme.ParkedCarDriver" />
+        <activity
             android:name=".view.BookingSlot.BookSlotActivity"
             android:exported="false" />
         <activity
@@ -52,16 +57,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.auth.AuthActivity"
+        <activity
+            android:name=".view.auth.AuthActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-            >
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
 
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
 
         </activity>
     </application>

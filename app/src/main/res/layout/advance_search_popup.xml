@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@color/quantum_grey50">
+
+    <!-- Title: Advance Search -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Advance Search"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginBottom="18dp"/>
+
+    <!-- Address Search Options (Wrapped in CardView) -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        android:backgroundTint="@color/quantum_grey200">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="13dp">
+
+            <!-- Address Icon (Vector Asset) -->
+            <ImageView
+                android:layout_width="28sp"
+                android:layout_height="28sp"
+                android:src="@drawable/getspot"
+                android:layout_gravity="start"
+                android:layout_marginEnd="16dp"/>
+
+            <!-- Address Text -->
+            <TextView
+                android:id="@+id/advance_search_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Address"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Add 4 More Address Search Options Here (Wrap each in a CardView) -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        android:backgroundTint="@color/quantum_grey200"
+        android:id="@+id/advance_search_start_date_cardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="13dp">
+
+            <!-- Address Icon (Vector Asset) -->
+            <ImageView
+                android:layout_width="26sp"
+                android:layout_height="28sp"
+                android:src="@drawable/baseline_date_range_24"
+                android:layout_gravity="start"
+                android:layout_marginEnd="16dp"/>
+
+            <!-- Address Text -->
+            <TextView
+                android:id="@+id/advance_search_start_date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="From"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        android:backgroundTint="@color/quantum_grey200"
+        android:id="@+id/advance_search_start_time_cardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="13dp">
+
+            <!-- Address Icon (Vector Asset) -->
+            <ImageView
+                android:layout_width="26sp"
+                android:layout_height="28sp"
+                android:src="@drawable/baseline_access_time_filled_24"
+                android:layout_gravity="start"
+                android:layout_marginEnd="16dp"/>
+
+            <!-- Address Text -->
+            <TextView
+                android:id="@+id/advance_search_start_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="From"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        android:backgroundTint="@color/quantum_grey200"
+        android:id="@+id/advance_search_end_date_cardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="13dp">
+
+            <!-- Address Icon (Vector Asset) -->
+            <ImageView
+                android:layout_width="28sp"
+                android:layout_height="28sp"
+                android:src="@drawable/baseline_date_range_24"
+                android:layout_gravity="start"
+                android:layout_marginEnd="16dp"/>
+
+            <!-- Address Text -->
+            <TextView
+                android:id="@+id/advance_search_end_date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        android:backgroundTint="@color/quantum_grey200"
+        android:id="@+id/advance_search_end_time_cardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="13dp">
+
+            <!-- Address Icon (Vector Asset) -->
+            <ImageView
+                android:layout_width="28sp"
+                android:layout_height="28sp"
+                android:src="@drawable/baseline_access_time_filled_24"
+                android:layout_gravity="start"
+                android:layout_marginEnd="16dp"/>
+
+            <!-- Address Text -->
+            <TextView
+                android:id="@+id/advance_search_end_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="To"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp"
+        android:backgroundTint="@color/quantum_grey200"
+        android:id="@+id/advance_distance_range_cardView">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="13dp">
+
+            <!-- Address Icon (Vector Asset) -->
+            <ImageView
+                android:layout_width="28sp"
+                android:layout_height="28sp"
+                android:src="@drawable/distance"
+                android:layout_gravity="start"
+                android:layout_marginEnd="16dp"/>
+
+            <!-- Address Text -->
+            <TextView
+                android:id="@+id/advance_distance_range_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Distance Range"
+                android:textSize="18sp"
+                android:layout_gravity="center_vertical"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="10sp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            android:backgroundTint="@color/quantum_grey200">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <!-- Address Icon (Vector Asset) -->
+                <ImageView
+                    android:layout_width="28sp"
+                    android:layout_height="28sp"
+                    android:src="@drawable/length"
+                    android:layout_gravity="start"
+                    android:layout_marginEnd="10dp"/>
+
+                <!-- Address Text -->
+                <TextView
+                    android:id="@+id/advance_length_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Length"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="10sp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            android:backgroundTint="@color/quantum_grey200">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <!-- Address Icon (Vector Asset) -->
+                <ImageView
+                    android:layout_width="24sp"
+                    android:layout_height="28sp"
+                    android:src="@drawable/width"
+                    android:layout_gravity="start"
+                    android:layout_marginEnd="10dp"/>
+
+                <!-- Address Text -->
+                <TextView
+                    android:id="@+id/advance_width_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Width"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginBottom="12dp"
+            android:layout_marginEnd="6sp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            android:backgroundTint="@color/quantum_grey200">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <!-- Address Icon (Vector Asset) -->
+                <ImageView
+                    android:layout_width="28sp"
+                    android:layout_height="28sp"
+                    android:src="@drawable/height"
+                    android:layout_gravity="start"
+                    android:layout_marginEnd="10dp"/>
+
+                <!-- Address Text -->
+                <TextView
+                    android:id="@+id/advance_height_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Height"
+                    android:textSize="16sp"
+                    android:layout_gravity="center_vertical"/>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <!-- Third LinearLayout for Security Measures -->
+    <LinearLayout
+        android:layout_below="@id/distance_range_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8sp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Security Measures:"
+            android:textSize="19sp"
+            android:textStyle="bold"/>
+
+        <!-- Security Measures Checkboxes -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25sp"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkBoxGuard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guard"
+                android:textSize="16sp"
+                android:layout_marginEnd="8sp"/>
+
+            <CheckBox
+                android:id="@+id/checkBoxIndoor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Indoor"
+                android:textSize="16sp"
+                android:layout_marginEnd="8sp"/>
+
+            <CheckBox
+                android:id="@+id/checkBoxCCTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CCTV"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="12sp"
+            android:text="Search"
+            android:layout_marginEnd="10sp"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/quantum_pink700"
+            android:text="Cancel"
+            android:padding="12sp"
+            android:layout_marginStart="10sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
