@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 public class Common {
 
@@ -85,6 +86,12 @@ public class Common {
     public static String formatAddress(String start_address) {
         int firstIndexOfComma = start_address.indexOf(",");
         return start_address.substring(0, firstIndexOfComma); // Get only address
+    }
+
+    public static Calendar getCalenderInstance() {
+        TimeZone timeZone = TimeZone.getTimeZone("GMT+6");
+        Calendar calendar = Calendar.getInstance(timeZone);
+        return calendar;
     }
 
 //    @RequiresApi(api = Build.VERSION_CODES.O)

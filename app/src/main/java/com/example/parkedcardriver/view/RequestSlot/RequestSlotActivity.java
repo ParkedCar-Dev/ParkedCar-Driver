@@ -2,17 +2,20 @@ package com.example.parkedcardriver.view.RequestSlot;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
@@ -26,7 +29,7 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -38,11 +41,14 @@ import android.view.animation.LayoutAnimationController;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.parkedcardriver.Adapters.SlotAdapter;
@@ -80,13 +86,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -132,6 +134,8 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
     // -------------------------------
 
     private View view;
+
+    private String destinationAddress;
 
     // Routes
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -258,6 +262,194 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                 CreateFilterPopUpWindow();
             }
         });
+
+        advanceSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateAdvanceSearchPopUpWindow();
+            }
+        });
+    }
+
+    private void CreateAdvanceSearchPopUpWindow() {
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popUpView = layoutInflater.inflate(R.layout.advance_search_popup, null);
+
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true;
+
+        PopupWindow popupWindow = new PopupWindow(popUpView, width, height, focusable);
+        layout.post(new Runnable() {
+            @Override
+            public void run() {
+                popupWindow.showAtLocation(layout, Gravity.BOTTOM, 0, 0);
+            }
+        });
+        Button search, cancel;
+        search = popUpView.findViewById(R.id.advance_search_button);
+        cancel = popUpView.findViewById(R.id.advance_search_cancel_button);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+//        popUpView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                popupWindow.dismiss();
+//                return true;
+//            }
+//        });
+
+
+        TextView advance_search_address,advance_search_start_date_text, advance_search_start_time_text, advance_search_end_date_text, advance_search_end_time_text,
+                advance_distance_range_text,advance_length_text, advance_width_text, advance_height_text;
+        CardView advance_search_start_date_cardView, advance_search_start_time_cardView, advance_search_end_date_cardView, advance_search_end_time_cardView,
+                advance_distance_range_cardView;
+        CheckBox advance_checkBoxGuard,advance_checkBoxIndoor,advance_checkBoxCCTV;
+
+        advance_search_address = popUpView.findViewById(R.id.advance_search_address);
+        advance_search_start_date_text = popUpView.findViewById(R.id.advance_search_start_date_text);
+        advance_search_start_time_text = popUpView.findViewById(R.id.advance_search_start_time_text);
+        advance_search_end_date_text = popUpView.findViewById(R.id.advance_search_end_date_text);
+        advance_search_end_time_text = popUpView.findViewById(R.id.advance_search_end_time_text);
+        advance_distance_range_text = popUpView.findViewById(R.id.advance_distance_range_text);
+        advance_length_text = popUpView.findViewById(R.id.advance_length_text);
+        advance_width_text = popUpView.findViewById(R.id.advance_width_text);
+        advance_height_text = popUpView.findViewById(R.id.advance_height_text);
+        advance_search_start_date_cardView = popUpView.findViewById(R.id.advance_search_start_date_cardView);
+        advance_search_start_time_cardView = popUpView.findViewById(R.id.advance_search_start_time_cardView);
+        advance_search_end_date_cardView = popUpView.findViewById(R.id.advance_search_end_date_cardView);
+        advance_search_end_time_cardView = popUpView.findViewById(R.id.advance_search_end_time_cardView);
+        advance_distance_range_cardView = popUpView.findViewById(R.id.advance_distance_range_cardView);
+        advance_checkBoxGuard = popUpView.findViewById(R.id.advance_checkBoxGuard);
+        advance_checkBoxIndoor = popUpView.findViewById(R.id.advance_checkBoxIndoor);
+        advance_checkBoxCCTV = popUpView.findViewById(R.id.advance_checkBoxCCTV);
+
+        advance_search_address.setText(destinationAddress);
+        advance_search_start_date_cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDateDialog(advance_search_start_date_text);
+            }
+        });
+        advance_search_end_date_cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDateDialog(advance_search_end_date_text);
+            }
+        });
+        advance_search_start_time_cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTimeDialog(advance_search_start_time_text);
+            }
+        });
+        advance_search_end_time_cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTimeDialog(advance_search_end_time_text);
+            }
+        });
+        advance_distance_range_cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDialog("Enter Maximum Distance(in km)", advance_distance_range_text);
+            }
+        });
+        advance_length_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDialog("Enter Length", advance_length_text);
+            }
+        });
+        advance_width_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDialog("Enter Width", advance_width_text);
+            }
+        });
+        advance_height_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDialog("Enter Height", advance_height_text);
+            }
+        });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(advance_search_start_date_text.getText().equals("From") || advance_search_start_time_text.getText().equals("From") ||
+                        advance_search_end_date_text.getText().equals("To") || advance_search_end_time_text.getText().equals("To") ||
+                        advance_distance_range_text.getText().equals("Distance Range") || advance_length_text.getText().equals("Length") ||
+                        advance_width_text.getText().equals("Width") || advance_height_text.getText().equals("Height")){
+                    Toast.makeText(RequestSlotActivity.this, "Please fill up all the field!!", Toast.LENGTH_LONG).show();
+                }
+                else if(!advance_checkBoxGuard.isChecked() && !advance_checkBoxIndoor.isChecked() && !advance_checkBoxCCTV.isChecked()){
+                    Toast.makeText(RequestSlotActivity.this, "Please select security measures!!", Toast.LENGTH_LONG).show();
+                }
+                else{
+
+                }
+            }
+        });
+    }
+
+    private boolean checkDoubleParsable(String val)
+    {
+        try{
+            Double.parseDouble(val);
+            return true;
+        }
+        catch(NumberFormatException e){
+            return false;
+        }
+    }
+
+    private void createDialog(String title, TextView textView){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+
+        final EditText input = new EditText(RequestSlotActivity.this);
+        // input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(checkDoubleParsable(input.getText().toString())){
+                    textView.setText(input.getText().toString());
+                }
+                else {
+                    Toast.makeText(RequestSlotActivity.this, "Please enter a valid value!!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        builder.show();
+    }
+
+    private void openDateDialog(TextView textView){
+        DatePickerDialog dialog = new DatePickerDialog(RequestSlotActivity.this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                textView.setText(dayOfMonth+"/"+month+"/"+year);
+            }
+        }, Common.getCalenderInstance().get(Calendar.YEAR), Common.getCalenderInstance().get(Calendar.MONTH), Common.getCalenderInstance().get(Calendar.DAY_OF_MONTH));
+
+        dialog.show();
+    }
+
+    private void openTimeDialog(TextView textView){
+        TimePickerDialog dialog = new TimePickerDialog(RequestSlotActivity.this, R.style.DialogTheme, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                textView.setText(hourOfDay+":"+minute);
+            }
+        }, Common.getCalenderInstance().get(Calendar.HOUR_OF_DAY), Common.getCalenderInstance().get(Calendar.MINUTE), true);
+
+        dialog.show();
     }
 
     private void CreateFilterPopUpWindow() {
@@ -706,7 +898,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
 
         TextView txt_destination = (TextView) view.findViewById(R.id.txt_destination);
 
-        txt_destination.setText(Common.formatAddress(end_address));
+        txt_destination.setText(destinationAddress=Common.formatAddress(end_address));
 
         // Create icon for marker
         IconGenerator generator = new IconGenerator(this);

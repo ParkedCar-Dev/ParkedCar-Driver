@@ -354,7 +354,7 @@
             android:orientation="horizontal">
 
             <CheckBox
-                android:id="@+id/checkBoxGuard"
+                android:id="@+id/advance_checkBoxGuard"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Guard"
@@ -362,7 +362,7 @@
                 android:layout_marginEnd="8sp"/>
 
             <CheckBox
-                android:id="@+id/checkBoxIndoor"
+                android:id="@+id/advance_checkBoxIndoor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Indoor"
@@ -370,7 +370,7 @@
                 android:layout_marginEnd="8sp"/>
 
             <CheckBox
-                android:id="@+id/checkBoxCCTV"
+                android:id="@+id/advance_checkBoxCCTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CCTV"
@@ -384,6 +384,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/advance_search_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -392,6 +393,7 @@
             android:layout_marginEnd="10sp"/>
 
         <Button
+            android:id="@+id/advance_search_cancel_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

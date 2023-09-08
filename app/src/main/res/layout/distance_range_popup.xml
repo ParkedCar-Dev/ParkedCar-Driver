@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/quantum_grey200">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/popup_background"
+        android:orientation="vertical"
+        android:layout_margin="10sp"
+        android:padding="12sp">
+<!--        &lt;!&ndash; Popup Title &ndash;&gt;-->
+<!--        <TextView-->
+<!--            android:id="@+id/popupTitle"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Select a Range"-->
+<!--            android:gravity="center"-->
+<!--            android:textSize="20sp"-->
+<!--            android:textStyle="bold"-->
+<!--            android:layout_marginBottom="8sp"/>-->
+
+        <!-- Second LinearLayout (Similar to First LinearLayout) -->
+        <LinearLayout
+            android:layout_below="@id/price_range_linearLayout"
+            android:id="@+id/distance_range_linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8sp"
+            android:layout_marginBottom="12sp"
+            android:layout_marginLeft="12sp"
+            android:layout_marginRight="12sp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Distance Range:"
+                android:textStyle="bold"
+                android:textSize="17sp"/>
+            <com.google.android.material.slider.Slider
+                android:id="@+id/advance_distance_rangeSlider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:valueFrom="0"
+                android:valueTo="20"
+                android:stepSize="0.5"
+                app:values="@array/distanceRangeSlider"
+                app:haloColor="@color/colorAccent"
+                app:thumbColor="@color/design_default_color_primary_dark"
+                app:tickColor="@color/design_default_color_error"
+                app:trackColor="@color/quantum_teal600"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:layout_weight="1"
+                    android:text="0 km"
+                    android:textColor="@color/quantum_teal"
+                    android:textSize="16sp"
+                    tools:ignore="RtlHardcoded" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="20 km"
+                    android:textSize="16sp"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:textColor="@color/quantum_teal"
+                    tools:ignore="RtlHardcoded" />
+            </LinearLayout>
+        </LinearLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Submit"/>
+    </LinearLayout>
+
+</RelativeLayout>
