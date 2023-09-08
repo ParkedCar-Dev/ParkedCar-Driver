@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.parkedcardriver.Common.Common;
 import com.example.parkedcardriver.Model.SlotModel;
 import com.example.parkedcardriver.Repository.SearchSlotRepository;
 
@@ -14,39 +13,49 @@ public class SlotViewModel extends ViewModel {
 
     private Double latitude, longitude;
     private String city;
-    MutableLiveData<ArrayList<SlotModel>> slotModelLiveData;
+    MutableLiveData<ArrayList<SlotModel>> quickSearchSlotModelLiveData;
+    MutableLiveData<ArrayList<SlotModel>> advanceSearchSlotModelLiveData;
 
     SearchSlotRepository searchSlotRepository;
 
     public SlotViewModel(){
-        slotModelLiveData = new MutableLiveData<>();
+        quickSearchSlotModelLiveData = new MutableLiveData<>();
+        advanceSearchSlotModelLiveData = new MutableLiveData<>();
     }
 
     public void setSearchSlotRepository(SearchSlotRepository searchSlotRepository) {
         this.searchSlotRepository = searchSlotRepository;
     }
 
-    public LiveData<ArrayList<SlotModel>> getSearchedSlots() {
+    public LiveData<ArrayList<SlotModel>> getQuickSearchedSlots() {
 //        if(slotModelLiveData == null){
 //            slotModelLiveData = new MutableLiveData<>();
 //        }
-        return slotModelLiveData;
+        return quickSearchSlotModelLiveData;
     }
 
-    public void setSearchedSlots(ArrayList<SlotModel> slotModelLiveData) {
-        this.slotModelLiveData.setValue(slotModelLiveData);
+    public LiveData<ArrayList<SlotModel>> getAdvanceSearchedSlots() {
+//        if(slotModelLiveData == null){
+//            slotModelLiveData = new MutableLiveData<>();
+//        }
+        return advanceSearchSlotModelLiveData;
     }
 
-    public void searchSlots(){
-        if(Common.isQuickSearch){
-            searchSlotRepository.getSearchedSlots(latitude, longitude, city, slotModelLiveData);
-        }
-        else{
-            /**
-             * Advance Search
-             */
-            searchSlotRepository.getSearchedSlots(latitude, longitude, city, slotModelLiveData);
-        }
+    public void setQuickSearchedSlots(ArrayList<SlotModel> slotModelLiveData) {
+        this.quickSearchSlotModelLiveData.setValue(slotModelLiveData);
+    }
+
+    public void setAdvanceSearchedSlots(ArrayList<SlotModel> slotModelLiveData) {
+        this.advanceSearchSlotModelLiveData.setValue(slotModelLiveData);
+    }
+
+    public void quickSearchSlots(){
+        searchSlotRepository.getQuickSearchedSlots(latitude, longitude, city, quickSearchSlotModelLiveData);
+    }
+
+    public void advanceSearchSlots(Double latitude, Double longitude, String city, Long from, Long to, Double price,
+                                   Double distance, ArrayList<String> securityMeasures, Boolean autoApprove){
+        searchSlotRepository.getAdvanceSearchedSlots(latitude, longitude, city, from, to, price, distance, securityMeasures, autoApprove, advanceSearchSlotModelLiveData);
     }
 
     public void clearComposite(){

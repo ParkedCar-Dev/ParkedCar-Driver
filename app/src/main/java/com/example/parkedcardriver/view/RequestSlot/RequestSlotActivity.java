@@ -6,6 +6,7 @@ import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -29,7 +30,6 @@ import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -134,6 +134,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
     // -------------------------------
 
     private View view;
+    LifecycleOwner owner;
 
     private String destinationAddress;
 
@@ -199,14 +200,16 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
         binding.searchedSlotsRecyclerView.setLayoutAnimation(controller);
         binding.searchedSlotsRecyclerView.setAdapter(slotAdapter);
 
+        owner = this;
+
         slotViewModel.setSearchSlotRepository(searchSlotRepository);
         // Common.quickSearchTime = Common.currentTime(); // Set Current time
-        slotViewModel.getSearchedSlots().observe(this, slots->{
+        slotViewModel.getQuickSearchedSlots().observe(this, slots->{
             if(slots == null){
 //                go to auth activity
                 Toast.makeText(getApplicationContext(), "Please Login to Continue", Toast.LENGTH_SHORT).show();
 //                slots = new ArrayList<>();
-                slotViewModel.setSearchedSlots(new ArrayList<>());
+                slotViewModel.setQuickSearchedSlots(new ArrayList<>());
                 Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
                 startActivity(intent);
                 return;
@@ -305,10 +308,10 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
 
 
         TextView advance_search_address,advance_search_start_date_text, advance_search_start_time_text, advance_search_end_date_text, advance_search_end_time_text,
-                advance_distance_range_text,advance_length_text, advance_width_text, advance_height_text;
+                advance_distance_range_text,advance_length_text, advance_width_text, advance_height_text, advance_price_range_text;
         CardView advance_search_start_date_cardView, advance_search_start_time_cardView, advance_search_end_date_cardView, advance_search_end_time_cardView,
-                advance_distance_range_cardView;
-        CheckBox advance_checkBoxGuard,advance_checkBoxIndoor,advance_checkBoxCCTV;
+                advance_distance_range_cardView, advance_price_range_cardView;
+        CheckBox advance_checkBoxGuard,advance_checkBoxIndoor,advance_checkBoxCCTV, advance_auto_approve;
 
         advance_search_address = popUpView.findViewById(R.id.advance_search_address);
         advance_search_start_date_text = popUpView.findViewById(R.id.advance_search_start_date_text);
@@ -316,6 +319,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
         advance_search_end_date_text = popUpView.findViewById(R.id.advance_search_end_date_text);
         advance_search_end_time_text = popUpView.findViewById(R.id.advance_search_end_time_text);
         advance_distance_range_text = popUpView.findViewById(R.id.advance_distance_range_text);
+        advance_price_range_text = popUpView.findViewById(R.id.advance_price_range_text);
         advance_length_text = popUpView.findViewById(R.id.advance_length_text);
         advance_width_text = popUpView.findViewById(R.id.advance_width_text);
         advance_height_text = popUpView.findViewById(R.id.advance_height_text);
@@ -324,9 +328,11 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
         advance_search_end_date_cardView = popUpView.findViewById(R.id.advance_search_end_date_cardView);
         advance_search_end_time_cardView = popUpView.findViewById(R.id.advance_search_end_time_cardView);
         advance_distance_range_cardView = popUpView.findViewById(R.id.advance_distance_range_cardView);
+        advance_price_range_cardView = popUpView.findViewById(R.id.advance_price_range_cardView);
         advance_checkBoxGuard = popUpView.findViewById(R.id.advance_checkBoxGuard);
         advance_checkBoxIndoor = popUpView.findViewById(R.id.advance_checkBoxIndoor);
         advance_checkBoxCCTV = popUpView.findViewById(R.id.advance_checkBoxCCTV);
+        advance_auto_approve = popUpView.findViewById(R.id.advance_auto_approve);
 
         advance_search_address.setText(destinationAddress);
         advance_search_start_date_cardView.setOnClickListener(new View.OnClickListener() {
@@ -356,7 +362,13 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
         advance_distance_range_cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createDialog("Enter Maximum Distance(in km)", advance_distance_range_text);
+                createDialog("Enter Maximum Distance Range(km)", advance_distance_range_text);
+            }
+        });
+        advance_price_range_cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createDialog("Enter Maximum Price Range(BDT)", advance_price_range_text);
             }
         });
         advance_length_text.setOnClickListener(new View.OnClickListener() {
@@ -382,15 +394,104 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
             public void onClick(View v) {
                 if(advance_search_start_date_text.getText().equals("From") || advance_search_start_time_text.getText().equals("From") ||
                         advance_search_end_date_text.getText().equals("To") || advance_search_end_time_text.getText().equals("To") ||
-                        advance_distance_range_text.getText().equals("Distance Range") || advance_length_text.getText().equals("Length") ||
-                        advance_width_text.getText().equals("Width") || advance_height_text.getText().equals("Height")){
+                        advance_distance_range_text.getText().equals("Distance Range") || advance_price_range_text.getText().equals("Price Range") ||
+                        advance_length_text.getText().equals("Length") || advance_width_text.getText().equals("Width") ||
+                        advance_height_text.getText().equals("Height")){
                     Toast.makeText(RequestSlotActivity.this, "Please fill up all the field!!", Toast.LENGTH_LONG).show();
                 }
                 else if(!advance_checkBoxGuard.isChecked() && !advance_checkBoxIndoor.isChecked() && !advance_checkBoxCCTV.isChecked()){
                     Toast.makeText(RequestSlotActivity.this, "Please select security measures!!", Toast.LENGTH_LONG).show();
                 }
                 else{
+                    slotViewModel.getAdvanceSearchedSlots().observe(RequestSlotActivity.this, slots->{
+                        if(slots == null){
+                            Toast.makeText(getApplicationContext(), "Please Login to Continue", Toast.LENGTH_SHORT).show();
+                            slotViewModel.setAdvanceSearchedSlots(new ArrayList<>());
+                            Intent intent = new Intent(getApplicationContext(), AuthActivity.class);
+                            startActivity(intent);
+                            return;
+                        }
 
+
+                        slotAdapter.setSlotModelArrayList(slots);
+                        slotAdapter.notifyDataSetChanged();
+
+                        listOfSearchedSlots = slots;
+
+                        for(Marker marker:listOfMarkers){
+                            marker.remove();
+                        }
+                        listOfMarkers.clear();
+                        for(SlotModel slot: slots){
+                            addParkHereMarker(new LatLng(slot.getLatitude(), slot.getLongitude()), slot.getAddress());
+                        }
+
+                        slotAdapter.addItemClickListener(new SlotAdapter.SlotItemClickListener() {
+                            @Override
+                            public void onItemClick(int position) {
+                                selectedSlot = listOfSearchedSlots.get(position);
+                                selectSpotButton.setEnabled(true);
+                                selectSpotButton.setBackgroundTintList(ColorStateList.valueOf(0xFF018786));
+                            }
+                        });
+                    });
+
+                    String destination = selectedPlaceEvent.getDestinationString();
+                    Double latitude = Double.parseDouble(destination.split(",")[0]);
+                    Double longitude = Double.parseDouble(destination.split(",")[1]);
+                    slotViewModel.setLatitude(latitude);
+                    slotViewModel.setLongitude(longitude);
+
+                    // Get city name
+                    // Get the address from lat & lng
+                    String city = null;
+                    Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                    List<Address> addressList;
+                    try {
+                        addressList = geocoder.getFromLocation(latitude,
+                                longitude, 1);
+                        if (addressList != null) {
+                            //String address = addressList.get(0).getAddressLine(0);
+                            city = addressList.get(0).getLocality();
+                            //String state = addressList.get(0).getAdminArea();
+                            //String zip = addressList.get(0).getPostalCode();
+                            //String country = addressList.get(0).getCountryName();
+
+                            Log.d("Destination City",  city);
+                        }
+                    } catch (IOException e) {
+
+                    }
+
+                    String fromDate = advance_search_start_date_text.getText().toString();
+                    String fromTime = advance_search_start_time_text.getText().toString();
+                    String toDate = advance_search_end_date_text.getText().toString();
+                    String toTime = advance_search_end_time_text.getText().toString();
+
+                    ArrayList<String> securities = new ArrayList<>();
+                    if(advance_checkBoxGuard.isChecked()){
+                        securities.add("guard");
+                    }
+                    if(advance_checkBoxIndoor.isChecked()){
+                        securities.add("indoor");
+                    }
+                    if(advance_checkBoxCCTV.isChecked()){
+                        securities.add("cctv");
+                    }
+
+                    long fromMilSec = Common.getSystemMilSec(fromDate.split("/")[2], fromDate.split("/")[1], fromDate.split("/")[0],
+                            fromTime.split(":")[0], fromTime.split(":")[1]);
+                    long toMilSec = Common.getSystemMilSec(toDate.split("/")[2], toDate.split("/")[1], toDate.split("/")[0],
+                            toTime.split(":")[0], toTime.split(":")[1]);
+
+                    slotViewModel.advanceSearchSlots(latitude, longitude, city, fromMilSec, toMilSec, Double.parseDouble(advance_price_range_text.getText().toString()),
+                            Double.parseDouble(advance_distance_range_text.getText().toString())*1000.0, securities, advance_auto_approve.isChecked());
+
+                    Log.d("Advance Search Data: " , latitude + " " + longitude + " " + city + " " + fromMilSec + " " + toMilSec + " " +
+                                    Double.parseDouble(advance_price_range_text.getText().toString()) + " " +
+                            Double.parseDouble(advance_distance_range_text.getText().toString())*1000.0 + " " + securities + " " + advance_auto_approve.isChecked());
+
+                    popupWindow.dismiss();
                 }
             }
         });
@@ -717,7 +818,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                 slotViewModel.setLatitude(latitude);
                 slotViewModel.setLongitude(longitude);
                 Log.d("Request Slot", "Search Slots");
-                slotViewModel.searchSlots();
+                slotViewModel.quickSearchSlots();
                 Log.d("Request Slot", "Search Slots after request");
 //                loadSlotData();
             }

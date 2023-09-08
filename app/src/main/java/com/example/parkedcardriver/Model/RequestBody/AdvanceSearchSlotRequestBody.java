@@ -17,16 +17,16 @@ public class AdvanceSearchSlotRequestBody {
     @SerializedName("to")
     private Long to;
     @SerializedName("price")
-    private Integer price;
+    private Double price;
     @SerializedName("distance")
-    private Integer distance;
+    private Double distance;
     @SerializedName("security_measures")
     private ArrayList<String> securityMeasures;
     @SerializedName("auto_approve")
     private Boolean autoApprove;
 
     public AdvanceSearchSlotRequestBody(Double latitude, Double longitude, String city, Long from, Long to,
-                                        Integer price, Integer distance, ArrayList<String> securityMeasures, Boolean autoApprove) {
+                                        Double price, Double distance, ArrayList<String> securityMeasures, Boolean autoApprove) {
         this.latitude = latitude;
         this.longitude = longitude;
         this.city = city;
@@ -78,19 +78,19 @@ public class AdvanceSearchSlotRequestBody {
         this.to = to;
     }
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public Integer getDistance() {
+    public Double getDistance() {
         return distance;
     }
 
-    public void setDistance(Integer distance) {
+    public void setDistance(Double distance) {
         this.distance = distance;
     }
 

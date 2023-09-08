@@ -10,8 +10,8 @@ import retrofit2.http.POST;
 
 public interface SearchSlotService {
     @POST("search/quick")
-    Call<SearchSlotModel> getSearchedSlots(@Body QuickSearchSlotRequestBody quickSearchSlotRequestBody);
+    Call<SearchSlotModel> getQuickSearchedSlots(@Body QuickSearchSlotRequestBody quickSearchSlotRequestBody);
 
     @POST("search/advanced")
-    Call<SearchSlotModel> getSearchedSlots(@Body AdvanceSearchSlotRequestBody advanceSearchSlotRequestBody);
+    Call<SearchSlotModel> getAdvanceSearchedSlots(@Body AdvanceSearchSlotRequestBody advanceSearchSlotRequestBody);
 }

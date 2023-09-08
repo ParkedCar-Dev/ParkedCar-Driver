@@ -9,7 +9,9 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.text.DecimalFormat;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -92,6 +94,13 @@ public class Common {
         TimeZone timeZone = TimeZone.getTimeZone("GMT+6");
         Calendar calendar = Calendar.getInstance(timeZone);
         return calendar;
+    }
+
+    public static long getSystemMilSec(String year, String month, String day, String hour, String minutes) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Integer.parseInt(year), Integer.parseInt(month)-1, Integer.parseInt(day), Integer.parseInt(hour), Integer.parseInt(minutes));
+        // Calculate milliseconds since the Unix epoch
+        return calendar.getTimeInMillis();
     }
 
 //    @RequiresApi(api = Build.VERSION_CODES.O)

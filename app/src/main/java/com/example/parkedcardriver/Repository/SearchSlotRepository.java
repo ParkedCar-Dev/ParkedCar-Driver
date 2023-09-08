@@ -4,8 +4,8 @@ import android.util.Log;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.parkedcardriver.Common.Common;
 import com.example.parkedcardriver.Model.APIService.SearchSlotService;
+import com.example.parkedcardriver.Model.RequestBody.AdvanceSearchSlotRequestBody;
 import com.example.parkedcardriver.Model.RequestBody.QuickSearchSlotRequestBody;
 import com.example.parkedcardriver.Model.SearchSlotModel;
 import com.example.parkedcardriver.Model.SlotModel;
@@ -38,7 +38,7 @@ public class SearchSlotRepository {
         compositeDisposable.clear();
     }
 
-    public void getSearchedSlots(double latitude, double longitude, String city, MutableLiveData<ArrayList<SlotModel>> spaceList){
+    public void getQuickSearchedSlots(double latitude, double longitude, String city, MutableLiveData<ArrayList<SlotModel>> spaceList){
         Retrofit retrofitClient = new RetrofitClient().getInstance();
         SearchSlotService searchSlotService = retrofitClient.create(SearchSlotService.class);
 
@@ -58,7 +58,7 @@ public class SearchSlotRepository {
 //                }, throwable -> Log.e("Error on Search Slots", "Throwable " + throwable.getMessage()))
 //        );
         Log.d("SEARCH_SLOT_REPO", "Before Call");
-        Call<SearchSlotModel> call = searchSlotService.getSearchedSlots(new QuickSearchSlotRequestBody(latitude, longitude, city));
+        Call<SearchSlotModel> call = searchSlotService.getQuickSearchedSlots(new QuickSearchSlotRequestBody(latitude, longitude, city));
         Log.d("SEARCH_SLOT_REPO", "After Call");
         call.enqueue(new Callback<SearchSlotModel>() {
             @Override
@@ -89,5 +89,38 @@ public class SearchSlotRepository {
         });
 
 //        return mutableLiveData;
+    }
+
+    public void getAdvanceSearchedSlots(Double latitude, Double longitude, String city, Long from, Long to, Double price, Double distance,
+                                        ArrayList<String> securityMeasures, Boolean autoApprove, MutableLiveData<ArrayList<SlotModel>> advanceSearchSlotModelLiveData) {
+        Retrofit retrofitClient = new RetrofitClient().getInstance();
+        SearchSlotService searchSlotService = retrofitClient.create(SearchSlotService.class);
+
+        Call<SearchSlotModel> call = searchSlotService.getAdvanceSearchedSlots(new AdvanceSearchSlotRequestBody(latitude, longitude, city, from, to,
+                price, distance, securityMeasures, autoApprove));
+        call.enqueue(new Callback<SearchSlotModel>() {
+            @Override
+            public void onResponse(Call<SearchSlotModel> call, Response<SearchSlotModel> response) {
+                if (response.isSuccessful()) {
+                    SearchSlotModel searchSlotModel = response.body();
+                    if(searchSlotModel.getSpaces() != null && searchSlotModel.getSpaces().size() > 0){
+                        advanceSearchSlotModelLiveData.setValue(searchSlotModel.getSpaces());
+                    }
+                } else {
+                    // Handle error responses here
+                    Log.d("SEARCH_SLOT_REPO", "Error Response: "+response.message());
+                    if(response.code() == 401){
+                        advanceSearchSlotModelLiveData.setValue(null);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SearchSlotModel> call, Throwable t) {
+                // Handle network errors here
+                System.out.println(t.getMessage());
+                Log.d("SEARCH_SLOT_REPO", "on failure: "+ t.getMessage());
+            }
+        });
     }
 }
