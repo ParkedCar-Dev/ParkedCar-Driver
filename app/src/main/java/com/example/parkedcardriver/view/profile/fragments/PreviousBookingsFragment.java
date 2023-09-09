@@ -1,5 +1,6 @@
 package com.example.parkedcardriver.view.profile.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.parkedcardriver.R;
 import com.example.parkedcardriver.ViewModel.ProfileViewModel;
+import com.example.parkedcardriver.view.auth.AuthActivity;
 import com.example.parkedcardriver.view.profile.adapters.BookingListAdapter;
 
 public class PreviousBookingsFragment extends Fragment {
@@ -50,6 +52,10 @@ public class PreviousBookingsFragment extends Fragment {
             if (bookings != null) {
                 adapter.setBookings(bookings);
                 adapter.notifyDataSetChanged();
+            }else if(bookings == null){
+                Intent intent = new Intent(getContext(), AuthActivity.class);
+                startActivity(intent);
+                this.getActivity().finish();
             }
         });
 

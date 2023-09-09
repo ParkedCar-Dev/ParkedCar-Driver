@@ -40,8 +40,8 @@ public class LoginFragment extends Fragment {
         email = getView().findViewById(R.id.login_email);
         password = getView().findViewById(R.id.login_pass);
 
-        email.getEditText().setText("user1@test.com");
-        password.getEditText().setText("123456");
+        email.getEditText().setText("driver2");
+        password.getEditText().setText("1234");
 
         loginButton = getView().findViewById(R.id.login_button);
         signupButton = getView().findViewById(R.id.login_to_signup);

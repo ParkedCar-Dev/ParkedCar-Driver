@@ -1,11 +1,13 @@
 package com.example.parkedcardriver.view.profile.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.TokenWatcher;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,8 @@ import android.view.ViewGroup;
 
 import com.example.parkedcardriver.R;
 import com.example.parkedcardriver.ViewModel.ProfileViewModel;
+import com.example.parkedcardriver.utils.TokenManager;
+import com.example.parkedcardriver.view.auth.AuthActivity;
 import com.example.parkedcardriver.view.profile.adapters.BookingListAdapter;
 
 public class CurrentBookingsFragment extends Fragment {
@@ -51,6 +55,10 @@ public class CurrentBookingsFragment extends Fragment {
             if (bookings != null) {
                 adapter.setBookings(bookings);
                 adapter.notifyDataSetChanged();
+            }else if(bookings == null){
+                Intent intent = new Intent(getContext(), AuthActivity.class);
+                startActivity(intent);
+                this.getActivity().finish();
             }
         });
 

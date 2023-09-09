@@ -40,6 +40,8 @@ public class ProfileRepository {
                 Log.d("BookingListResponse", "onResponse: " + response.body());
                 if(response.isSuccessful()) {
                     bookings.setValue(response.body().getBookings());
+                }else  if(response.code() == 401){
+                    bookings.setValue(null);
                 }
             }
 
