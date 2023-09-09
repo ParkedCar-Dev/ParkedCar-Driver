@@ -1,15 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DesignSurface">
-    <option name="filePathToZoomLevelMap">
-      <map>
-        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable/popup_background.xml" value="0.35625" />
-        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/drawable/rounded_button.xml" value="0.35625" />
-        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/activity_request_slot.xml" value="0.33" />
-        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/fragment_maps.xml" value="0.13768115942028986" />
-        <entry key="..\:/Term 4-1/CSE-408/ParkedCar-Driver/app/src/main/res/layout/sort_slots_popup.xml" value="0.2758152173913043" />
-      </map>
-    </option>
-  </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
 </project>

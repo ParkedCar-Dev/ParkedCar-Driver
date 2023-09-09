@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.parkedcardriver.Model.SlotModel;
 import com.example.parkedcardriver.R;
 import com.example.parkedcardriver.view.BookingSlot.BookSlotActivity;
+import com.example.parkedcardriver.view.BookingSlot.BookingSlotActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,7 +91,13 @@ public class SlotDetailsActivity extends AppCompatActivity {
         book_slot_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), BookSlotActivity.class));
+                Intent intent = new Intent(getApplicationContext(), BookingSlotActivity.class);
+                intent.putExtra("Slot_Details", slotModel);
+                intent.putExtra("From_Date", getIntent().getStringExtra("From_Date"));
+                intent.putExtra("From_Time", getIntent().getStringExtra("From_Time"));
+                intent.putExtra("To_Date", getIntent().getStringExtra("To_Date"));
+                intent.putExtra("To_Time", getIntent().getStringExtra("To_Time"));
+                startActivity(intent);
             }
         });
     }

@@ -137,6 +137,7 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
     LifecycleOwner owner;
 
     private String destinationAddress;
+    private String fromDate, fromTime, toDate, toTime;
 
     // Routes
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
@@ -248,6 +249,10 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SlotDetailsActivity.class);
                 intent.putExtra("Slot_Details", selectedSlot);
+                intent.putExtra("From_Date", fromDate);
+                intent.putExtra("From_Time", fromTime);
+                intent.putExtra("To_Date", toDate);
+                intent.putExtra("To_Time", toTime);
                 startActivity(intent);
             }
         });
@@ -463,10 +468,10 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
 
                     }
 
-                    String fromDate = advance_search_start_date_text.getText().toString();
-                    String fromTime = advance_search_start_time_text.getText().toString();
-                    String toDate = advance_search_end_date_text.getText().toString();
-                    String toTime = advance_search_end_time_text.getText().toString();
+                    fromDate = advance_search_start_date_text.getText().toString();
+                    fromTime = advance_search_start_time_text.getText().toString();
+                    toDate = advance_search_end_date_text.getText().toString();
+                    toTime = advance_search_end_time_text.getText().toString();
 
                     ArrayList<String> securities = new ArrayList<>();
                     if(advance_checkBoxGuard.isChecked()){
@@ -487,9 +492,10 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                     slotViewModel.advanceSearchSlots(latitude, longitude, city, fromMilSec, toMilSec, Double.parseDouble(advance_price_range_text.getText().toString()),
                             Double.parseDouble(advance_distance_range_text.getText().toString())*1000.0, securities, advance_auto_approve.isChecked());
 
-                    Log.d("Advance Search Data: " , latitude + " " + longitude + " " + city + " " + fromMilSec + " " + toMilSec + " " +
-                                    Double.parseDouble(advance_price_range_text.getText().toString()) + " " +
-                            Double.parseDouble(advance_distance_range_text.getText().toString())*1000.0 + " " + securities + " " + advance_auto_approve.isChecked());
+
+//                    Log.d("Advance Search Data: " , latitude + " " + longitude + " " + city + " " + fromMilSec + " " + toMilSec + " " +
+//                                    Double.parseDouble(advance_price_range_text.getText().toString()) + " " +
+//                            Double.parseDouble(advance_distance_range_text.getText().toString())*1000.0 + " " + securities + " " + advance_auto_approve.isChecked());
 
                     popupWindow.dismiss();
                 }
@@ -819,6 +825,14 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                 slotViewModel.setLongitude(longitude);
                 Log.d("Request Slot", "Search Slots");
                 slotViewModel.quickSearchSlots();
+                Calendar instance = Common.getCalenderInstance();
+                fromDate = instance.get(Calendar.DAY_OF_MONTH) + "/" + instance.get(Calendar.MONTH) + "/" + instance.get(Calendar.YEAR);
+                fromTime = instance.get(Calendar.HOUR_OF_DAY) + ":" + instance.get(Calendar.MINUTE);
+
+                instance.add(Calendar.HOUR_OF_DAY, 1);
+                toDate = instance.get(Calendar.DAY_OF_MONTH) + "/" + instance.get(Calendar.MONTH) + "/" + instance.get(Calendar.YEAR);
+                toTime = instance.get(Calendar.HOUR_OF_DAY) + ":" + instance.get(Calendar.MINUTE);
+                Log.d("Calender time: ", fromDate+ "  " + fromTime + "  " + toDate + "  " + toTime);
                 Log.d("Request Slot", "Search Slots after request");
 //                loadSlotData();
             }

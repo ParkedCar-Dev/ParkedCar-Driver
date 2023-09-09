@@ -21,6 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ParkedCarDriver">
         <activity
+            android:name=".view.BookingSlot.BookingSlotActivity"
+            android:exported="false"
+            android:label="@string/title_activity_booking_slot"
+            android:theme="@style/Theme.ParkedCarDriver" />
+        <activity
             android:name=".view.Search.AdvanceSearch"
             android:exported="false"
             android:label="@string/title_activity_advance_search"
