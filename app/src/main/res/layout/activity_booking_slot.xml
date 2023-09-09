@@ -41,7 +41,7 @@
                 android:id="@+id/booking_slot_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="#32"
+                android:text="ID"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
@@ -92,12 +92,18 @@
             android:id="@+id/booking_slot_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Address"/>
+            android:hint="Address"
+            android:enabled="false"
+            android:focusable="false"
+            android:clickable="false"/>
         <EditText
             android:id="@+id/booking_slot_owner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Owner"/>
+            android:hint="Owner"
+            android:enabled="false"
+            android:focusable="false"
+            android:clickable="false"/>
     </LinearLayout>
 
     <!-- Booking Time Layout -->
@@ -214,6 +220,7 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/booking_slot_cancel_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -225,6 +232,7 @@
             android:enabled="true"/>
 
         <Button
+            android:id="@+id/booking_slot_pay_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

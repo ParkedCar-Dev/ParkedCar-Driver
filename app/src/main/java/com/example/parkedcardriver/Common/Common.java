@@ -10,6 +10,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.text.DecimalFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -29,6 +30,12 @@ public class Common {
     public static boolean isQuickSearch = true;
 
     public static final DecimalFormat df = new DecimalFormat("0.00");
+
+    static String[] monthNames = {
+            "January", "February", "March", "April",
+            "May", "June", "July", "August",
+            "September", "October", "November", "December"
+    };
 
     public static void setWelcomeMessage(TextView txt_welcome) {
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
@@ -102,6 +109,41 @@ public class Common {
         // Calculate milliseconds since the Unix epoch
         return calendar.getTimeInMillis();
     }
+
+    public static String capitalize(String str)
+    {
+        if(str == null || str.length()<=1) return str;
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
+    public static String generalizeDateAdTime(String date, String time){
+        int day = Integer.parseInt(date.split("/")[0]);
+        int month = Integer.parseInt(date.split("/")[1]);
+        int year = Integer.parseInt(date.split("/")[2]);
+        int hour = Integer.parseInt(time.split(":")[0]);
+        int min = Integer.parseInt(time.split(":")[1]);
+
+        String s="";
+
+        s+= String.valueOf(day) + " ";
+        s+=monthNames[month-1] + ", ";
+        s+=String.valueOf(year) + " ";
+        if(hour>12){
+            s+=String.valueOf(hour-12) + ":";
+        }
+        else{
+            s+=String.valueOf(hour) + ":";
+        }
+        s+=String.valueOf(min) + " ";
+        if(hour<12){
+            s+="AM";
+        }
+        else{
+            s+="PM";
+        }
+        return s;
+    }
+
 
 //    @RequiresApi(api = Build.VERSION_CODES.O)
 //    public static ZonedDateTime currentTime(){
