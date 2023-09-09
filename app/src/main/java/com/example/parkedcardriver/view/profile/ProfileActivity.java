@@ -6,7 +6,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.os.Bundle;
 
 import com.example.parkedcardriver.R;
-import com.google.android.material.navigation.NavigationView;
+import com.example.parkedcardriver.view.profile.adapters.ProfileViewpagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class ProfileActivity extends AppCompatActivity {

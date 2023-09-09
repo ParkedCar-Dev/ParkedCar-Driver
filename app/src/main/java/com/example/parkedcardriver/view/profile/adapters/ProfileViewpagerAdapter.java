@@ -1,4 +1,4 @@
-package com.example.parkedcardriver.view.profile;
+package com.example.parkedcardriver.view.profile.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
