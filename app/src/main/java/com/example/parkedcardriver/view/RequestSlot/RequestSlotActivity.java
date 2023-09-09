@@ -484,6 +484,10 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                         securities.add("cctv");
                     }
 
+                    Log.d("Advance Search Data: " , latitude + " " + longitude + " " + city + " " + fromDate + " " + fromTime + " " + toDate + " " + toTime + " " +
+                            Double.parseDouble(advance_price_range_text.getText().toString()) + " " +
+                            Double.parseDouble(advance_distance_range_text.getText().toString())*1000.0 + " " + securities + " " + advance_auto_approve.isChecked());
+
                     long fromMilSec = Common.getSystemMilSec(fromDate.split("/")[2], fromDate.split("/")[1], fromDate.split("/")[0],
                             fromTime.split(":")[0], fromTime.split(":")[1]);
                     long toMilSec = Common.getSystemMilSec(toDate.split("/")[2], toDate.split("/")[1], toDate.split("/")[0],
@@ -541,7 +545,8 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
         DatePickerDialog dialog = new DatePickerDialog(RequestSlotActivity.this, R.style.DialogTheme, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                textView.setText(dayOfMonth+"/"+month+"/"+year);
+                Log.d("Advance Search Data", dayOfMonth+"/"+month+"/"+year);
+                textView.setText(dayOfMonth+"/"+(month+1)+"/"+year);
             }
         }, Common.getCalenderInstance().get(Calendar.YEAR), Common.getCalenderInstance().get(Calendar.MONTH), Common.getCalenderInstance().get(Calendar.DAY_OF_MONTH));
 
@@ -826,11 +831,11 @@ public class RequestSlotActivity extends FragmentActivity implements OnMapReadyC
                 Log.d("Request Slot", "Search Slots");
                 slotViewModel.quickSearchSlots();
                 Calendar instance = Common.getCalenderInstance();
-                fromDate = instance.get(Calendar.DAY_OF_MONTH) + "/" + instance.get(Calendar.MONTH) + "/" + instance.get(Calendar.YEAR);
+                fromDate = instance.get(Calendar.DAY_OF_MONTH) + "/" + (instance.get(Calendar.MONTH)+1) + "/" + instance.get(Calendar.YEAR);
                 fromTime = instance.get(Calendar.HOUR_OF_DAY) + ":" + instance.get(Calendar.MINUTE);
 
                 instance.add(Calendar.HOUR_OF_DAY, 1);
-                toDate = instance.get(Calendar.DAY_OF_MONTH) + "/" + instance.get(Calendar.MONTH) + "/" + instance.get(Calendar.YEAR);
+                toDate = instance.get(Calendar.DAY_OF_MONTH) + "/" + (instance.get(Calendar.MONTH)+1) + "/" + instance.get(Calendar.YEAR);
                 toTime = instance.get(Calendar.HOUR_OF_DAY) + ":" + instance.get(Calendar.MINUTE);
                 Log.d("Calender time: ", fromDate+ "  " + fromTime + "  " + toDate + "  " + toTime);
                 Log.d("Request Slot", "Search Slots after request");

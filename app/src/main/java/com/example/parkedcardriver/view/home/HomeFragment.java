@@ -1,5 +1,6 @@
 package com.example.parkedcardriver.view.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.example.parkedcardriver.R;
+import com.example.parkedcardriver.view.profile.ProfileActivity;
 
 
 public class HomeFragment extends Fragment {
@@ -42,12 +44,24 @@ public class HomeFragment extends Fragment {
                 clickHandler(view);
             }
         });
+        profileBox = view.findViewById(R.id.profileBox);
+        profileBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickHandler(view);
+            }
+        });
     }
 
     private void clickHandler(View view) {
         switch (view.getId()){
             case R.id.parkingBox:
                 Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_mapsFragment2);
+                break;
+            case R.id.profileBox:
+                Intent intent = new Intent(getActivity(), ProfileActivity.class);
+                startActivity(intent);
+                this.getActivity().finish();
                 break;
         }
     }
