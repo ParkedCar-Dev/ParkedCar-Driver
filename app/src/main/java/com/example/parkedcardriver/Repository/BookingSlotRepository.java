@@ -8,6 +8,7 @@ import com.example.parkedcardriver.Model.APIService.BookingSlotService;
 import com.example.parkedcardriver.Model.BookingModel;
 import com.example.parkedcardriver.Model.BookingSlotModel;
 import com.example.parkedcardriver.Model.BookingSlotRequestModel;
+import com.example.parkedcardriver.Model.PaymentStatusModel;
 import com.example.parkedcardriver.Model.RequestBody.BookingGeneralRequestBody;
 import com.example.parkedcardriver.Model.RequestBody.BookingSlotRequestRequestBody;
 import com.example.parkedcardriver.ViewModel.Retrofit.RetrofitClient;
@@ -91,6 +92,99 @@ public class BookingSlotRepository {
                 // Handle network errors here
                 System.out.println(t.getMessage());
                 Log.d("SEARCH_SLOT_REPO", "on failure: "+ t.getMessage());
+            }
+        });
+    }
+
+    public void getBookingStatus(int booking_id, MutableLiveData<String> bookingStatus){
+        Retrofit retrofitClient = new RetrofitClient().getInstance();
+        BookingSlotService bookingSlotService = retrofitClient.create(BookingSlotService.class);
+
+        Call<BookingSlotModel> call = bookingSlotService.getBookingStatus(new BookingGeneralRequestBody(booking_id));
+        call.enqueue(new Callback<BookingSlotModel>() {
+            @Override
+            public void onResponse(Call<BookingSlotModel> call, Response<BookingSlotModel> response) {
+                if (response.isSuccessful()) {
+                    BookingSlotModel bookingSlotModel = response.body();
+                    Log.d("SEARCH_SLOT_REPO", bookingSlotModel.getMessage());
+                    bookingStatus.setValue(bookingSlotModel.getStatus());
+                } else {
+                    // Handle error responses here
+                    Log.d("SEARCH_SLOT_REPO", "Error Response: "+response.message());
+                    if(response.code() == 401){
+                        bookingStatus.setValue(null);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookingSlotModel> call, Throwable t) {
+                // Handle network errors here
+                System.out.println(t.getMessage());
+                Log.d("SEARCH_SLOT_REPO", "on failure: "+ t.getMessage());
+            }
+        });
+    }
+
+    public void payBooking(int bookingId, MutableLiveData<String> paymentResponseStatus) {
+        Retrofit retrofitClient = new RetrofitClient().getInstance();
+        BookingSlotService bookingSlotService = retrofitClient.create(BookingSlotService.class);
+
+        Call<BookingSlotModel> call = bookingSlotService.payBooking(new BookingGeneralRequestBody(bookingId));
+        call.enqueue(new Callback<BookingSlotModel>() {
+            @Override
+            public void onResponse(Call<BookingSlotModel> call, Response<BookingSlotModel> response) {
+                Log.d("BookingListResponse", "onResponse: " + response.body());
+                if(response.isSuccessful() && response.body() != null) {
+                    paymentResponseStatus.setValue(response.body().getStatus());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookingSlotModel> call, Throwable t) {
+                Log.d("BookingListResponse", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void getPaymentStatus(int bookingId, MutableLiveData<String> paymentResponseStatus) {
+        Retrofit retrofitClient = new RetrofitClient().getInstance();
+        BookingSlotService bookingSlotService = retrofitClient.create(BookingSlotService.class);
+
+        Call<PaymentStatusModel> call = bookingSlotService.getPaymentStatus(new BookingGeneralRequestBody(bookingId));
+        call.enqueue(new Callback<PaymentStatusModel>() {
+            @Override
+            public void onResponse(Call<PaymentStatusModel> call, Response<PaymentStatusModel> response) {
+                Log.d("BookingListResponse", "onResponse: " + response.body());
+                if(response.isSuccessful() && response.body() != null) {
+                    paymentResponseStatus.setValue(response.body().getPayment_status());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PaymentStatusModel> call, Throwable t) {
+                Log.d("BookingListResponse", "onFailure: " + t.getMessage());
+            }
+        });
+    }
+
+    public void getCancelStatus(int bookingId, MutableLiveData<String> cancelStatus) {
+        Retrofit retrofitClient = new RetrofitClient().getInstance();
+        BookingSlotService bookingSlotService = retrofitClient.create(BookingSlotService.class);
+
+        Call<BookingSlotModel> call = bookingSlotService.getCancelStatus(new BookingGeneralRequestBody(bookingId));
+        call.enqueue(new Callback<BookingSlotModel>() {
+            @Override
+            public void onResponse(Call<BookingSlotModel> call, Response<BookingSlotModel> response) {
+                Log.d("BookingListResponse", "onResponse: " + response.body());
+                if(response.isSuccessful() && response.body() != null) {
+                    cancelStatus.setValue(response.body().getStatus());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BookingSlotModel> call, Throwable t) {
+                Log.d("BookingListResponse", "onFailure: " + t.getMessage());
             }
         });
     }

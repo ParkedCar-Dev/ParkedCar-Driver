@@ -14,12 +14,20 @@ import java.util.ArrayList;
 public class BookingRequestViewModel extends ViewModel {
     MutableLiveData<Integer> booking_id;
     MutableLiveData<BookingModel> bookingData;
+    MutableLiveData<String> bookingStatus;
+    MutableLiveData<String> paymentResponseStatus;
+    MutableLiveData<String> currentPaymentStatus;
+    MutableLiveData<String> cancellationStatus;
 
     BookingSlotRepository bookingSlotRepository;
 
     public BookingRequestViewModel(){
         booking_id = new MutableLiveData<>();
         bookingData = new MutableLiveData<>();
+        bookingStatus = new MutableLiveData<>();
+        paymentResponseStatus = new MutableLiveData<>();
+        currentPaymentStatus = new MutableLiveData<>();
+        cancellationStatus = new MutableLiveData<>();
     }
 
     public void setBookingSlotRepository(BookingSlotRepository bookingSlotRepository) {
@@ -34,12 +42,44 @@ public class BookingRequestViewModel extends ViewModel {
         return bookingData;
     }
 
+    public LiveData<String> getBookingStatus() {
+        return bookingStatus;
+    }
+
+    public LiveData<String> getPaymentResponseStatus() {
+        return paymentResponseStatus;
+    }
+
+    public LiveData<String> getPaymentStatus() {
+        return currentPaymentStatus;
+    }
+
+    public LiveData<String> getCancellationStatus() {
+        return cancellationStatus;
+    }
+
     public void sendBookingSlotRequest(int space_id, long from_time, long to_time){
         bookingSlotRepository.sendBookingSlotRequest(space_id, from_time, to_time, booking_id);
     }
 
     public void getBookingDataRequest(int booking_id){
         bookingSlotRepository.getBooking(booking_id, bookingData);
+    }
+
+    public void getBookingRequestStatus(int booking_id){
+        bookingSlotRepository.getBookingStatus(booking_id, bookingStatus);
+    }
+
+    public void payBooking(int bookingId) {
+        bookingSlotRepository.payBooking(bookingId, paymentResponseStatus);
+    }
+
+    public void paymentStatus(int bookingId) {
+        bookingSlotRepository.getPaymentStatus(bookingId, currentPaymentStatus);
+    }
+
+    public void cancelStatus(int bookingId) {
+        bookingSlotRepository.getCancelStatus(bookingId, cancellationStatus);
     }
 
     public void clearComposite(){
