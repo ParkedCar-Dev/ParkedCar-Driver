@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.home.HomeFragment"
-    android:background="@color/teal_700">
+    android:background="@color/cool_black">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,15 +16,27 @@
         android:id="@+id/dummyMargin"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome to ParkedCar"
-            android:fontFamily="@font/courgette"
-            android:textSize="32sp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="75dp"
-            android:textColor="@color/quantum_grey300"/>
+            android:gravity="center_horizontal"
+            android:layout_marginTop="75dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Welcome to "
+                android:fontFamily="@font/courgette"
+                android:textSize="32sp"
+                android:textColor="@color/blue"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ParkedCar"
+                android:fontFamily="@font/courgette"
+                android:textSize="31sp"
+                android:textColor="@color/colorPrimary"/>
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -219,21 +231,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Home"
-                    android:textColor="@android:color/black" />
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Your location"
-                    android:textColor="@android:color/darker_gray" />
+                    android:textColor="@color/blue" />
 
             </LinearLayout>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#CCCCCC" />
+            android:layout_height="2dp"
+            android:background="@color/cool_red"/>
 
         <!-- Second Favorite Place -->
         <LinearLayout
@@ -272,13 +286,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Work"
-                    android:textColor="@android:color/black" />
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Your location"
-                    android:textColor="@android:color/darker_gray" />
+                    android:textColor="@color/blue" />
 
             </LinearLayout>
         </LinearLayout>

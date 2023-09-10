@@ -5,18 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".view.BookingSlot.BookingSlotActivity">
+    tools:context=".view.BookingSlot.BookingSlotActivity"
+    android:background="@color/cool_black">
 
     <!-- Booking Receipt Title -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Booking Receipt"
-        android:textSize="24sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         android:fontFamily="@font/aclonica"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16sp"/>
+        android:layout_marginBottom="24sp"
+        android:textColor="@color/colorPrimary"/>
 
     <!-- Booking ID Field -->
     <LinearLayout
@@ -36,14 +38,16 @@
                 android:layout_height="wrap_content"
                 android:text="Booking ID"
                 android:layout_marginBottom="4sp"
-                android:textStyle="italic"/>
+                android:textStyle="italic"
+                android:textColor="@color/blue"/>
             <TextView
                 android:id="@+id/booking_slot_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="ID"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textColor="@color/quantum_grey300"/>
 
         </LinearLayout>
 
@@ -59,14 +63,16 @@
                 android:layout_height="wrap_content"
                 android:text="Booking Status"
                 android:layout_marginBottom="4sp"
-                android:textStyle="italic"/>
+                android:textStyle="italic"
+                android:textColor="@color/blue"/>
             <TextView
                 android:id="@+id/booking_slot_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Requested"
                 android:textSize="17sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textColor="@color/quantum_teal400"/>
 
         </LinearLayout>
 
@@ -82,14 +88,16 @@
                 android:layout_height="wrap_content"
                 android:text="Payment Status"
                 android:layout_marginBottom="4sp"
-                android:textStyle="italic"/>
+                android:textStyle="italic"
+                android:textColor="@color/blue"/>
             <TextView
                 android:id="@+id/payment_slot_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="unpaid"
                 android:textSize="17sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                android:textColor="@color/quantum_teal400"/>
 
         </LinearLayout>
 
@@ -109,7 +117,9 @@
         android:textStyle="bold"
         android:fontFamily="@font/allerta_stencil"
         android:layout_marginTop="16dp"
-        android:textSize="16sp"/>
+        android:layout_marginBottom="6sp"
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"/>
 
     <!-- Address and Owner Fields -->
     <LinearLayout
@@ -120,17 +130,22 @@
         <EditText
             android:id="@+id/booking_slot_address"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40sp"
             android:hint="Address"
             android:enabled="false"
-            android:clickable="false"/>
+            android:clickable="false"
+            android:paddingLeft="8sp"
+            android:background="@drawable/rounded_button_orange"/>
         <EditText
             android:id="@+id/booking_slot_owner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40sp"
             android:hint="Owner"
             android:enabled="false"
-            android:clickable="false"/>
+            android:clickable="false"
+            android:layout_marginTop="8sp"
+            android:paddingLeft="8sp"
+            android:background="@drawable/rounded_button_orange"/>
     </LinearLayout>
 
     <!-- Booking Time Layout -->
@@ -141,7 +156,8 @@
         android:textStyle="bold"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/allerta_stencil"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -155,16 +171,19 @@
             android:text="From   :   Time"
             android:textSize="15sp"
             android:fontFamily="@font/move_bold"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="#ED9D0B"/>
         <TextView
             android:id="@+id/booking_slot_to_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginTop="4sp"
             android:text="To        :   Time"
             android:fontFamily="@font/move_bold"
             android:textSize="15sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="#ED9D0B"/>
     </LinearLayout>
 
     <!-- Payment Information Section -->
@@ -175,7 +194,8 @@
         android:textStyle="bold"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/allerta_stencil"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:textColor="@color/colorPrimary"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -185,7 +205,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Base Fare"/>
+            android:text="Base Fare"
+            android:textSize="15sp"
+            android:textColor="@color/blue"/>
         <TextView
             android:id="@+id/booking_slot_base_fare"
             android:layout_width="0dp"
@@ -193,7 +215,9 @@
             android:layout_weight="1"
             android:text="Price"
             android:textStyle="bold"
-            android:gravity="end"/>
+            android:gravity="end"
+            android:textColor="#ED9D0B"
+            android:textSize="15sp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -204,7 +228,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Time Fare"/>
+            android:text="Time Fare"
+            android:textSize="15sp"
+            android:textColor="@color/blue"/>
         <TextView
             android:id="@+id/booking_slot_time_fare"
             android:layout_width="0dp"
@@ -212,12 +238,14 @@
             android:layout_weight="1"
             android:text="Price"
             android:textStyle="bold"
-            android:gravity="end"/>
+            android:gravity="end"
+            android:textColor="#ED9D0B"
+            android:textSize="15sp"/>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="2dp"
         android:layout_marginTop="5sp"
         android:background="@android:color/darker_gray"/>
 
@@ -230,7 +258,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Total"/>
+            android:text="Total"
+            android:textSize="15sp"
+            android:textColor="@color/blue"/>
         <TextView
             android:id="@+id/booking_slot_total_fare"
             android:layout_width="0dp"
@@ -238,7 +268,9 @@
             android:layout_weight="1"
             android:text="Price"
             android:textStyle="bold"
-            android:gravity="end"/>
+            android:gravity="end"
+            android:textColor="#ED9D0B"
+            android:textSize="15sp"/>
     </LinearLayout>
 
     <LinearLayout
@@ -255,7 +287,8 @@
             android:text="Cancel Booking"
             android:clickable="true"
             android:focusable="true"
-            android:backgroundTint="@color/teal_700"
+            android:backgroundTint="@color/cool_red"
+            android:textColor="@color/quantum_grey400"
             android:layout_margin="6sp"
             android:textSize="14sp"
             android:enabled="true"/>
@@ -267,8 +300,9 @@
             android:layout_weight="1"
             android:text="Pay"
             android:layout_margin="6sp"
-            android:backgroundTint="@color/quantum_pink700"
+            android:backgroundTint="@color/teal_700"
             android:textSize="15sp"
+            android:textColor="@color/cool_black"
             android:clickable="false"
             android:focusable="false"
             android:enabled="false" />

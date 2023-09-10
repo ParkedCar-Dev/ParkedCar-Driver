@@ -5,8 +5,8 @@
         <corners android:radius="24dp" />
         <gradient
             android:type="linear"
-            android:startColor="#76D7BE"
-            android:endColor="#4CA68E"
+            android:startColor="@color/quantum_grey300"
+            android:endColor="#A0A7A8"
         />
     </shape>
 
@@ -14,7 +14,7 @@
 <item>
     <shape>
         <corners android:radius="24dp" />
-        <solid android:color="#CCCCCCCC" />
+        <solid android:color="@color/cool_grey" />
     </shape>
 </item>
 </selector>
