@@ -16,6 +16,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -84,6 +85,13 @@ public class BookingSlotActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        handler = new Handler();
+        handler.postDelayed(fetchBookingStatus, 2000);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking_slot);
@@ -126,6 +134,7 @@ public class BookingSlotActivity extends AppCompatActivity {
         });
 
         bookingRequestViewModel.getPaymentStatus().observe(BookingSlotActivity.this, paymentStatus->{
+            if(paymentStatus.equalsIgnoreCase("-1")) return;
             if((bookingStatus.equals("active") || bookingStatus.equals("completed")) && paymentStatus.equals("unpaid")){
                 booking_slot_pay_button.setEnabled(true);
                 booking_slot_pay_button.setClickable(true);
@@ -137,6 +146,7 @@ public class BookingSlotActivity extends AppCompatActivity {
                 booking_slot_pay_button.setFocusable(false);
             }
             payment_slot_status.setText(paymentStatus+"");
+            bookingRequestViewModel.getPaymentResponseStatus().setValue("-1");
         });
 
         bookingRequestViewModel.getBookingDetails().observe(BookingSlotActivity.this, bookingDetails->{
@@ -154,9 +164,11 @@ public class BookingSlotActivity extends AppCompatActivity {
                 Toast.makeText(BookingSlotActivity.this, "Something went wrong while booking slot!!", Toast.LENGTH_LONG).show();
                 return;
             }
+            if(bookingStatus.equalsIgnoreCase("-1")) return;
             booking_slot_status.setText(Common.capitalize(bookingStatus));
             this.bookingStatus = bookingStatus;
             bookingRequestViewModel.paymentStatus(bookingId);
+            bookingRequestViewModel.getBookingStatus().setValue("-1");
         });
 
         bookingRequestViewModel.getCancellationStatus().observe(BookingSlotActivity.this, cancellationStatus->{
@@ -210,7 +222,9 @@ public class BookingSlotActivity extends AppCompatActivity {
     private Runnable fetchBookingStatus = new Runnable() {
         @Override
         public void run() {
+            Log.d("Fetch Statuses", "message");
             bookingRequestViewModel.getBookingRequestStatus(bookingId);
+            bookingRequestViewModel.paymentStatus(bookingId);
             handler.postDelayed(this, 2000);
         }
     };

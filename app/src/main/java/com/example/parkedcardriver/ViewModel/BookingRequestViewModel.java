@@ -34,27 +34,27 @@ public class BookingRequestViewModel extends ViewModel {
         this.bookingSlotRepository = bookingSlotRepository;
     }
 
-    public LiveData<Integer> getBookingId() {
+    public MutableLiveData<Integer> getBookingId() {
         return booking_id;
     }
 
-    public LiveData<BookingModel> getBookingDetails() {
+    public MutableLiveData<BookingModel> getBookingDetails() {
         return bookingData;
     }
 
-    public LiveData<String> getBookingStatus() {
+    public MutableLiveData<String> getBookingStatus() {
         return bookingStatus;
     }
 
-    public LiveData<String> getPaymentResponseStatus() {
+    public MutableLiveData<String> getPaymentResponseStatus() {
         return paymentResponseStatus;
     }
 
-    public LiveData<String> getPaymentStatus() {
+    public MutableLiveData<String> getPaymentStatus() {
         return currentPaymentStatus;
     }
 
-    public LiveData<String> getCancellationStatus() {
+    public MutableLiveData<String> getCancellationStatus() {
         return cancellationStatus;
     }
 

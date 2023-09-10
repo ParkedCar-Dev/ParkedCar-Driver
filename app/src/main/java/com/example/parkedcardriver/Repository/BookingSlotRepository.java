@@ -106,7 +106,7 @@ public class BookingSlotRepository {
             public void onResponse(Call<BookingSlotModel> call, Response<BookingSlotModel> response) {
                 if (response.isSuccessful()) {
                     BookingSlotModel bookingSlotModel = response.body();
-                    Log.d("SEARCH_SLOT_REPO", bookingSlotModel.getMessage());
+                    Log.d("SEARCH_SLOT_REPO", bookingSlotModel.getStatus());
                     bookingStatus.setValue(bookingSlotModel.getStatus());
                 } else {
                     // Handle error responses here
@@ -155,7 +155,7 @@ public class BookingSlotRepository {
         call.enqueue(new Callback<PaymentStatusModel>() {
             @Override
             public void onResponse(Call<PaymentStatusModel> call, Response<PaymentStatusModel> response) {
-                Log.d("BookingListResponse", "onResponse: " + response.body());
+                Log.d("SEARCH_SLOT_REPO", "onResponse: " + response.body().getPayment_status());
                 if(response.isSuccessful() && response.body() != null) {
                     paymentResponseStatus.setValue(response.body().getPayment_status());
                 }
@@ -163,7 +163,7 @@ public class BookingSlotRepository {
 
             @Override
             public void onFailure(Call<PaymentStatusModel> call, Throwable t) {
-                Log.d("BookingListResponse", "onFailure: " + t.getMessage());
+                Log.d("SEARCH_SLOT_REPO", "onFailure: " + t.getMessage());
             }
         });
     }
